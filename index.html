@@ -5,39 +5,13 @@
   <title>Vetra Bio</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- Basic SEO -->
-  <meta name="description" content="Vetra Bio is building AI-driven biology to understand how animals age — and how those trajectories can shift." />
-  <meta name="theme-color" content="#0b1220" />
-
-  <!-- Open Graph (optional placeholders) -->
-  <meta property="og:title" content="Vetra Bio" />
-  <meta property="og:description" content="Ageing is not just time. It’s state." />
-  <meta property="og:type" content="website" />
-
   <style>
-    :root{
-      --bg: #f7faff;
-      --text: #0b1220;
-      --muted: #4b5563;
-      --card: rgba(255,255,255,0.72);
-      --cardBorder: rgba(17,24,39,0.10);
-      --accent1: #4da3ff;
-      --accent2: #6e8bff;
-      --shadow: 0 18px 45px rgba(10, 30, 60, 0.10);
-      --radius: 18px;
-      --max: 1040px;
-    }
-
-    * { box-sizing: border-box; }
-    html, body { height: 100%; }
     body {
       margin: 0;
       font-family: -apple-system, BlinkMacSystemFont, "Inter", system-ui, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
-      background: radial-gradient(1200px 800px at 20% -10%, rgba(77,163,255,0.18), transparent 55%),
-                  radial-gradient(900px 700px at 100% 10%, rgba(110,139,255,0.16), transparent 55%),
-                  var(--bg);
-      color: var(--text);
-      overflow-x: hidden; /* allow scroll */
+      background: #f9fbff;
+      color: #111827;
+      overflow-x: hidden; /* keep clean on mobile */
     }
 
     canvas {
@@ -47,410 +21,144 @@
       pointer-events: none;
     }
 
-    /* Top fade to keep text readable */
-    .veil {
-      position: fixed;
-      inset: 0;
-      z-index: 1;
-      pointer-events: none;
-      background: linear-gradient(180deg, rgba(247,250,255,0.92) 0%, rgba(247,250,255,0.72) 40%, rgba(247,250,255,0.60) 100%);
-      backdrop-filter: blur(0px);
-    }
-
-    header {
-      position: sticky;
-      top: 0;
-      z-index: 3;
-      padding: 14px 18px;
-      background: rgba(247,250,255,0.72);
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid rgba(17,24,39,0.06);
-    }
-
-    .nav {
-      max-width: var(--max);
-      margin: 0 auto;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 14px;
-    }
-
-    .brand {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      text-decoration: none;
-      color: var(--text);
-      font-weight: 650;
-      letter-spacing: -0.3px;
-    }
-
-    .mark {
-      width: 34px;
-      height: 34px;
-      border-radius: 12px;
-      background: linear-gradient(135deg, var(--accent1), var(--accent2));
-      box-shadow: 0 10px 28px rgba(77,163,255,0.25);
-      display: grid;
-      place-items: center;
-      color: white;
-      font-weight: 750;
-      font-size: 16px;
-      line-height: 1;
-    }
-
-    .navlinks {
-      display: flex;
-      gap: 16px;
-      align-items: center;
-    }
-    .navlinks a {
-      color: rgba(11,18,32,0.72);
-      text-decoration: none;
-      font-size: 14px;
-      padding: 8px 10px;
-      border-radius: 10px;
-    }
-    .navlinks a:hover {
-      background: rgba(77,163,255,0.10);
-      color: rgba(11,18,32,0.90);
-    }
-
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      border: 0;
-      cursor: pointer;
-      padding: 10px 14px;
-      border-radius: 12px;
-      color: white;
-      font-weight: 600;
-      background: linear-gradient(90deg, var(--accent1), var(--accent2));
-      box-shadow: 0 14px 36px rgba(77,163,255,0.20);
-      text-decoration: none;
-      white-space: nowrap;
-      font-size: 14px;
-    }
-    .btn:hover { filter: brightness(0.98); }
-
-    main {
+    .container {
       position: relative;
       z-index: 2;
-      padding: 64px 18px 90px;
-    }
-
-    .container {
-      max-width: var(--max);
+      text-align: center;
+      padding: 110px 18px 90px;
+      max-width: 900px;
       margin: 0 auto;
-    }
-
-    .hero {
-      padding: 56px 22px;
-      border-radius: calc(var(--radius) + 8px);
-      background: var(--card);
-      border: 1px solid var(--cardBorder);
-      box-shadow: var(--shadow);
-      backdrop-filter: blur(14px);
     }
 
     h1 {
-      font-size: clamp(36px, 5vw, 60px);
-      font-weight: 720;
-      letter-spacing: -1.2px;
-      margin: 0 0 14px;
+      font-size: clamp(34px, 5vw, 54px);
+      font-weight: 600;
+      letter-spacing: -1px;
+      margin: 0 0 22px;
       line-height: 1.05;
     }
 
-    .lead {
+    p.lead {
       font-size: clamp(16px, 2vw, 20px);
       line-height: 1.7;
-      margin: 0 0 18px;
-      color: rgba(11,18,32,0.78);
+      margin: 0 auto 18px;
+      color: #374151;
       max-width: 70ch;
     }
 
-    .pillrow {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 18px;
-    }
-
-    .pill {
-      font-size: 13px;
-      padding: 8px 10px;
-      border-radius: 999px;
-      border: 1px solid rgba(17,24,39,0.10);
-      background: rgba(255,255,255,0.65);
-      color: rgba(11,18,32,0.76);
-    }
-
     .divider {
-      width: 76px;
+      width: 60px;
       height: 2px;
-      background: linear-gradient(90deg, var(--accent1), var(--accent2));
+      background: #4da3ff;
+      margin: 54px auto;
       border-radius: 2px;
-      margin: 44px 0 22px;
     }
 
-    .grid {
-      display: grid;
-      grid-template-columns: 1.2fr 0.8fr;
-      gap: 18px;
-      margin-top: 18px;
+    .section {
+      margin-top: 54px;
     }
 
-    .card {
-      border-radius: var(--radius);
-      background: var(--card);
-      border: 1px solid var(--cardBorder);
-      box-shadow: var(--shadow);
-      backdrop-filter: blur(14px);
-      padding: 22px;
-    }
-
-    .card h2 {
+    h2 {
+      font-size: 22px;
+      font-weight: 600;
       margin: 0 0 10px;
-      font-size: 18px;
       letter-spacing: -0.2px;
     }
 
-    .card p {
-      margin: 0 0 10px;
-      color: rgba(11,18,32,0.72);
+    p {
+      font-size: 16px;
       line-height: 1.7;
-      font-size: 15.5px;
-    }
-
-    .list {
-      margin: 12px 0 0;
-      padding: 0;
-      list-style: none;
-      display: grid;
-      gap: 10px;
-    }
-    .list li {
-      display: flex;
-      gap: 10px;
-      align-items: flex-start;
-      padding: 10px 12px;
-      border-radius: 14px;
-      border: 1px solid rgba(17,24,39,0.08);
-      background: rgba(255,255,255,0.58);
-    }
-    .dot {
-      width: 10px;
-      height: 10px;
-      margin-top: 5px;
-      border-radius: 999px;
-      background: linear-gradient(135deg, var(--accent1), var(--accent2));
-      flex: 0 0 auto;
-    }
-
-    .ctaStrip {
-      margin-top: 18px;
-      padding: 18px 18px;
-      border-radius: var(--radius);
-      border: 1px solid rgba(77,163,255,0.18);
-      background: linear-gradient(90deg, rgba(77,163,255,0.10), rgba(110,139,255,0.08));
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 14px;
-      flex-wrap: wrap;
-    }
-    .ctaStrip .mini {
-      color: rgba(11,18,32,0.72);
-      font-size: 14px;
-      line-height: 1.6;
-      margin: 0;
-      max-width: 78ch;
+      margin: 0 auto 16px;
+      color: #374151;
+      max-width: 62ch;
     }
 
     form {
-      margin-top: 10px;
-      display: grid;
-      gap: 10px;
+      margin-top: 14px;
     }
 
     input, textarea {
       width: 100%;
-      padding: 13px 14px;
-      border: 1px solid rgba(17,24,39,0.12);
-      background: rgba(255,255,255,0.82);
-      border-radius: 12px;
-      font-size: 15px;
+      max-width: 420px;
+      padding: 14px;
+      margin: 10px 0;
+      border: 1px solid #d1d5db;
+      background: rgba(255,255,255,0.92);
+      border-radius: 10px;
+      font-size: 16px;
       outline: none;
     }
+
     input:focus, textarea:focus {
-      border-color: rgba(77,163,255,0.55);
-      box-shadow: 0 0 0 4px rgba(77,163,255,0.14);
+      border-color: rgba(77,163,255,0.65);
+      box-shadow: 0 0 0 4px rgba(77,163,255,0.16);
     }
+
+    button {
+      padding: 14px 28px;
+      border: none;
+      background: linear-gradient(90deg, #4da3ff, #6e8bff);
+      color: white;
+      border-radius: 10px;
+      font-size: 16px;
+      cursor: pointer;
+      margin-top: 8px;
+    }
+
+    button:hover { opacity: 0.92; }
 
     .fineprint {
       font-size: 12.5px;
-      color: rgba(75,85,99,0.90);
-      line-height: 1.6;
+      color: #6b7280;
       margin-top: 10px;
+      line-height: 1.6;
     }
 
-    footer {
-      position: relative;
-      z-index: 2;
-      padding: 24px 18px 34px;
-      color: rgba(75,85,99,0.85);
-    }
-    .foot {
-      max-width: var(--max);
-      margin: 0 auto;
-      display: flex;
-      justify-content: space-between;
-      gap: 14px;
-      flex-wrap: wrap;
-      border-top: 1px solid rgba(17,24,39,0.08);
-      padding-top: 18px;
-      font-size: 13px;
-    }
-    .foot a {
-      color: rgba(75,85,99,0.95);
-      text-decoration: none;
-    }
-    .foot a:hover { text-decoration: underline; }
-
-    /* Mobile */
-    @media (max-width: 860px) {
-      .grid { grid-template-columns: 1fr; }
-      .navlinks { display: none; } /* keep header minimal on mobile */
-      main { padding-top: 42px; }
-    }
-
-    /* Reduced motion */
+    /* Reduce motion */
     @media (prefers-reduced-motion: reduce) {
       canvas { display: none; }
-      * { scroll-behavior: auto !important; }
     }
   </style>
 </head>
 
 <body>
   <canvas id="bg" aria-hidden="true"></canvas>
-  <div class="veil" aria-hidden="true"></div>
 
-  <header>
-    <div class="nav">
-      <a class="brand" href="#top" aria-label="Vetra Bio home">
-        <span class="mark">V</span>
-        <span>Vetra Bio</span>
-      </a>
+  <div class="container">
+    <h1>As we live longer and healthier, so should our beloved companion animals.</h1>
 
-      <nav class="navlinks" aria-label="Site navigation">
-        <a href="#about">About</a>
-        <a href="#focus">Focus</a>
-        <a href="#contact">Reach out</a>
-      </nav>
+    <p class="lead">
+      Ageing is not just time. It's states. We’re building AI-driven biology to understand how animals age —
+      and how those trajectories can shift.
+    </p>
 
-      <a class="btn" href="#contact">Partner with us →</a>
+    <p class="lead" style="margin-bottom:0;">
+      Built in Cambridge at the intersection of computational modelling, molecular epigenetics and translational science.
+    </p>
+
+    <div class="divider"></div>
+
+    <div class="section">
+      <h2>Coming Soon</h2>
+      <p>Opening early collaborations and strategic partnerships.</p>
     </div>
-  </header>
 
-  <main id="top">
-    <div class="container">
-      <section class="hero">
-        <h1>As we live longer and healthier, so should our beloved companion animals. </h1>
-        <p class="lead">
-          Ageing is not just time. It's states. We’re building AI-driven biology to understand how animals age —
-          and how those trajectories can shift.
-        </p>
-        <p class="lead" style="margin-bottom:0;">
-          Built in Cambridge at the intersection of computational modelling, molecular epigenetics and translational science
-        </p>
-
-        <div class="pillrow" aria-label="Key themes">
-          <span class="pill">Companion animals</span>
-          <span class="pill">Predictive modelling</span>
-          <span class="pill">Longitudinal biology</span>
-          <span class="pill">Translation-minded</span>
-        </div>
-
-        <div class="divider"></div>
-
-        <div class="grid">
-          <section class="card" id="about">
-            <h2>What we do</h2>
-            <p>
-              Vetra Bio is assembling the data + modelling stack needed to read biological state in animals,
-              and to forecast how that state changes across time, environment, and interventions.
-            </p>
-            <p>
-              We’re starting with predictive capability first — building the foundation for smarter studies,
-              stronger partnerships, and, later, precise therapeutics.
-            </p>
-
-            <div class="ctaStrip">
-              <p class="mini">
-                If you’re a veterinary group, diagnostics company, or research partner with relevant cohorts or samples,
-                we’d love to explore collaboration.
-              </p>
-              <a class="btn" href="#contact">Start a conversation</a>
-            </div>
-          </section>
-
-          <section class="card" id="focus">
-            <h2>Current focus</h2>
-            <p>
-              Early collaborations and strategic partnerships.
-            </p>
-
-            <ul class="list">
-              <li><span class="dot"></span><div><strong>Signal discovery</strong><br><span style="color:rgba(11,18,32,0.72);">Identify robust, cross-context markers of biological state.</span></div></li>
-              <li><span class="dot"></span><div><strong>Model building</strong><br><span style="color:rgba(11,18,32,0.72);">Predict trajectories with interpretable, validation-friendly ML.</span></div></li>
-              <li><span class="dot"></span><div><strong>Translation</strong><br><span style="color:rgba(11,18,32,0.72);">Design outputs that map to real veterinary decisions.</span></div></li>
-            </ul>
-          </section>
-        </div>
-
-        <section class="card" id="contact" style="margin-top:18px;">
-          <h2>Reach out</h2>
-          <p>
-            Leave your email and a short note. We’ll reply with next steps.
-          </p>
-
-          <!-- Replace YOUR_FORM_ID with your Formspree form ID -->
-          <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
-            <input type="email" name="email" placeholder="Your email" required />
-            <textarea name="message" rows="5" placeholder="Message (optional)"></textarea>
-            <button class="btn" type="submit" style="justify-self:start;">Send</button>
-          </form>
-
-          <div class="fineprint">
-            By submitting, you consent to being contacted by Vetra Bio about your enquiry. We don’t sell your data.
-          </div>
-        </section>
-      </section>
-    </div>
-  </main>
-
-  <footer>
-    <div class="foot">
-      <div>© <span id="year"></span> Vetra Bio Ltd. Cambridge, UK.</div>
-      <div style="display:flex; gap:14px; flex-wrap:wrap;">
-        <!-- Swap placeholders when ready -->
-        <a href="#contact">Contact</a>
-        <a href="#" onclick="alert('Add a privacy policy page when ready.'); return false;">Privacy</a>
-        <a href="#" onclick="alert('Add a careers page when ready.'); return false;">Careers</a>
+    <div class="section">
+      <h2>Reach Out</h2>
+      <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+        <input type="email" name="email" placeholder="Your email" required /><br />
+        <textarea name="message" rows="4" placeholder="Message"></textarea><br />
+        <button type="submit">Send</button>
+      </form>
+      <div class="fineprint">
+        We’ll only use your details to respond to your enquiry.
       </div>
     </div>
-  </footer>
+  </div>
 
   <script>
-    // Footer year
-    document.getElementById('year').textContent = new Date().getFullYear();
-
-    // Particle background (keeps your original vibe, with a small performance upgrade)
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
     const canvas = document.getElementById('bg');
     const ctx = canvas.getContext('2d', { alpha: true });
 
@@ -462,40 +170,38 @@
       canvas.style.height = window.innerHeight + 'px';
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     }
+
     resize();
     window.addEventListener('resize', resize);
 
     if (!prefersReducedMotion) {
-      const W = () => window.innerWidth;
-      const H = () => window.innerHeight;
-
-      const COUNT = Math.max(56, Math.min(96, Math.floor((W() * H()) / 22000)));
-      const LINK_DIST = 120;
       const particles = [];
+      const COUNT = 80;
+      const LINK_DIST = 120;
 
       for (let i = 0; i < COUNT; i++) {
         particles.push({
-          x: Math.random() * W(),
-          y: Math.random() * H(),
-          vx: (Math.random() - 0.5) * 0.45,
-          vy: (Math.random() - 0.5) * 0.45
+          x: Math.random() * window.innerWidth,
+          y: Math.random() * window.innerHeight,
+          vx: (Math.random() - 0.5) * 0.5,
+          vy: (Math.random() - 0.5) * 0.5
         });
       }
 
-      function tick() {
-        ctx.clearRect(0, 0, W(), H());
+      function draw() {
+        ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
 
-        // dots
+        // particles
         for (const p of particles) {
           p.x += p.vx;
           p.y += p.vy;
 
-          if (p.x < 0 || p.x > W()) p.vx *= -1;
-          if (p.y < 0 || p.y > H()) p.vy *= -1;
+          if (p.x < 0 || p.x > window.innerWidth) p.vx *= -1;
+          if (p.y < 0 || p.y > window.innerHeight) p.vy *= -1;
 
           ctx.beginPath();
           ctx.arc(p.x, p.y, 2, 0, Math.PI * 2);
-          ctx.fillStyle = "rgba(77,163,255,0.55)";
+          ctx.fillStyle = "rgba(77,163,255,0.6)";
           ctx.fill();
         }
 
@@ -504,21 +210,22 @@
           for (let j = i + 1; j < particles.length; j++) {
             const dx = particles[i].x - particles[j].x;
             const dy = particles[i].y - particles[j].y;
-            const dist = Math.sqrt(dx*dx + dy*dy);
+            const dist = Math.sqrt(dx * dx + dy * dy);
+
             if (dist < LINK_DIST) {
               ctx.beginPath();
               ctx.moveTo(particles[i].x, particles[i].y);
               ctx.lineTo(particles[j].x, particles[j].y);
-              ctx.strokeStyle = `rgba(77,163,255,${(1 - dist / LINK_DIST) * 0.18})`;
+              ctx.strokeStyle = "rgba(77,163,255," + (1 - dist / LINK_DIST) * 0.2 + ")";
               ctx.stroke();
             }
           }
         }
 
-        requestAnimationFrame(tick);
+        requestAnimationFrame(draw);
       }
 
-      tick();
+      draw();
     }
   </script>
 </body>
