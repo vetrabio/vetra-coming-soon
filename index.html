@@ -48,20 +48,21 @@
     main{ position: relative; z-index: 1; }
 
     /* HERO: hero image is the background of this section */
-    .hero{
-      position: relative;
-      min-height: 100vh;
-      display:flex;
-      align-items:center;
-      overflow:hidden;
-      background-color:#fff;
+    .hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  background-color: #fff;
 
-      /* Background image */
-      background-image: url("https://images.unsplash.com/photo-1548199973-03cce0bbc87b?auto=format&fit=crop&w=3200&q=90");
-      background-size: cover;
-      background-repeat: no-repeat;
-      background-position: var(--heroX) var(--heroY); /* <-- THIS WILL MOVE */
-    }
+  background-image: url(https://images.unsplash.com/photo-1548199973-03cce0bbc87b?auto=format&fit=crop&w=3200&q=90);
+  background-size: cover;
+  background-repeat: no-repeat;
+
+  /* This is the crop control */
+  background-position: var(--heroX) var(--heroY);
+}
 
     /* Left-side veil */
     .heroVeil{
