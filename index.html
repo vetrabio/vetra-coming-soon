@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <title>Vetra Bio</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Vetra Bio builds AI-driven evolutionarily conserved biology to understand how companion animals age — and how those trajectories can shift." />
+  <meta name="description" content="Vetra Bio builds AI-driven biology to understand how companion animals age — and how those trajectories can shift." />
 
   <style>
     :root{
@@ -12,10 +12,16 @@
       --text:#0b1220;
       --muted: rgba(11,18,32,0.72);
       --faint: rgba(11,18,32,0.56);
-      --accent1:#4da3ff;
-      --accent2:#6e8bff;
 
-      --maxText: 820px;   /* slightly wider text column */
+      /* Move hero crop with ONE value:
+         50% = centered
+         70% = more to the right
+         90% = dogs pushed far right
+      */
+      --heroX: 92%;
+      --heroY: 50%;
+
+      --maxText: 820px;
       --maxContact: 980px;
     }
 
@@ -29,7 +35,6 @@
       overflow-x:hidden;
     }
 
-    /* subtle light brand wash */
     .bgwash{
       position: fixed;
       inset: 0;
@@ -42,35 +47,23 @@
 
     main{ position: relative; z-index: 1; }
 
-    /* ===== HERO =====
-       Full-width image spans entire hero; text overlays left side.
-    */
+    /* HERO: hero image is the background of this section */
     .hero{
       position: relative;
       min-height: 100vh;
-      display: flex;
-      align-items: center;
-      overflow: hidden;
-      background: #fff;
+      display:flex;
+      align-items:center;
+      overflow:hidden;
+      background-color:#fff;
+
+      /* Background image */
+      background-image: url("https://images.unsplash.com/photo-1548199973-03cce0bbc87b?auto=format&fit=crop&w=3200&q=90");
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: var(--heroX) var(--heroY); /* <-- THIS WILL MOVE */
     }
 
-    .heroImage{
-      position:absolute;
-      inset:0;
-      z-index:0;
-    }
-
-    .heroImage img{
-      width:100%;
-      height:100%;
-      object-fit: cover;
-      object-position: 120% 50%; /* <-- push dogs further RIGHT */
-      display:block;
-      transform: scale(1.03);
-      filter: saturate(1.02) contrast(1.03);
-    }
-
-    /* Left-side veil for readability (ends early, stays off the corgi) */
+    /* Left-side veil */
     .heroVeil{
       position:absolute;
       inset:0;
@@ -85,7 +78,7 @@
       );
     }
 
-    /* Soft top/bottom fade so image integrates into page */
+    /* Top/bottom fade */
     .heroFade{
       position:absolute;
       inset:0;
@@ -113,7 +106,7 @@
       margin-right: 22px;
     }
 
-    /* MUCH larger hero typography */
+    /* Large typography */
     h1{
       margin: 0 0 16px;
       font-size: clamp(52px, 5.6vw, 98px);
@@ -139,7 +132,7 @@
       background: linear-gradient(90deg, rgba(11,18,32,0.0), rgba(11,18,32,0.14), rgba(11,18,32,0.0));
     }
 
-    /* ===== CONTACT ===== */
+    /* CONTACT */
     .contact{
       padding: 56px 22px 84px;
     }
@@ -218,26 +211,21 @@
       font-size: 13px;
     }
 
-    /* Extra polish for ultra-wide displays */
+    /* Ultra-wide: push further right + slightly larger */
     @media (min-width: 1400px){
+      :root{ --heroX: 95%; }
       .heroInner{ margin-left: 120px; }
       h1{ font-size: clamp(64px, 5.2vw, 112px); }
       .lead{ font-size: clamp(20px, 1.7vw, 26px); }
-      .heroImage img{ object-position: 94% 50%; } /* a touch more right on huge screens */
     }
 
-    /* ===== Responsive ===== */
+    /* Mobile: use vertical fade + different crop */
     @media (max-width: 980px){
-      .heroContent{
-        padding: 78px 18px 44px;
-      }
-      .heroInner{
-        margin-left: 0;
-        margin-right: 0;
-        max-width: 820px;
-      }
+      :root{ --heroX: 70%; --heroY: 40%; }
 
-      /* on mobile, fade from top down instead */
+      .heroContent{ padding: 78px 18px 44px; }
+      .heroInner{ margin-left: 0; margin-right: 0; max-width: 820px; }
+
       .heroVeil{
         background: linear-gradient(180deg,
           rgba(255,255,255,0.94) 0%,
@@ -245,11 +233,6 @@
           rgba(255,255,255,0.20) 72%,
           rgba(255,255,255,0.00) 100%
         );
-      }
-
-      /* slightly different crop for phones */
-      .heroImage img{
-        object-position: 70% 40%;
       }
     }
   </style>
@@ -260,20 +243,12 @@
 
   <main>
     <section class="hero" aria-label="Vetra Bio hero">
-      <div class="heroImage" aria-hidden="true">
-        <img
-          src="https://images.unsplash.com/photo-1548199973-03cce0bbc87b?auto=format&fit=crop&w=3200&q=90"
-          alt="Dogs running"
-          loading="eager"
-        />
-      </div>
-
       <div class="heroVeil" aria-hidden="true"></div>
       <div class="heroFade" aria-hidden="true"></div>
 
       <div class="heroContent">
         <div class="heroInner">
-          <h1>As we live longer and healthier, so should our beloved pets.</h1>
+          <h1>As we live longer and healthier, so should our beloved companion animals.</h1>
 
           <p class="lead">
             Ageing is not just time. It's states. We’re building AI-driven biology to understand how animals age —
