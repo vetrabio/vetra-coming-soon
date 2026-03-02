@@ -8,376 +8,355 @@
 
   <style>
     :root{
-      --bg:#f7f9ff;
-      --text:#0b1220;
-      --muted:#4b5563;
-      --border:rgba(17,24,39,.10);
-      --card:rgba(255,255,255,.78);
-      --shadow: 0 18px 50px rgba(10, 20, 40, 0.08);
-      --radius: 18px;
-      --max: 1080px;
+      --bg0:#070b16;
+      --bg1:#0b1430;
+      --bg2:#0a1c2a;
+      --text:#eef2ff;
+      --muted: rgba(238,242,255,0.72);
+      --faint: rgba(238,242,255,0.55);
+      --line: rgba(255,255,255,0.10);
       --accent1:#4da3ff;
       --accent2:#6e8bff;
+      --max: 980px;
     }
 
     *{ box-sizing:border-box; }
-    html,body{ height:100%; }
+    html, body { height:100%; }
     body{
       margin:0;
       font-family: -apple-system, BlinkMacSystemFont, "Inter", system-ui, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
-      color:var(--text);
+      color: var(--text);
       background:
-        radial-gradient(900px 600px at 15% -10%, rgba(77,163,255,0.18), transparent 55%),
-        radial-gradient(900px 600px at 105% 10%, rgba(110,139,255,0.14), transparent 55%),
-        var(--bg);
+        radial-gradient(1200px 700px at 15% 10%, rgba(77,163,255,0.18), transparent 55%),
+        radial-gradient(1100px 750px at 90% 0%, rgba(110,139,255,0.16), transparent 55%),
+        radial-gradient(900px 700px at 70% 90%, rgba(77,163,255,0.10), transparent 60%),
+        linear-gradient(180deg, var(--bg0) 0%, var(--bg1) 55%, var(--bg2) 100%);
       overflow-x:hidden;
     }
 
-    a{ color:inherit; }
-
-    /* ====== Header ====== */
-    header{
-      position:sticky;
-      top:0;
-      z-index:10;
-      background: rgba(247,249,255,0.72);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid rgba(17,24,39,0.06);
+    /* Subtle grain to feel “premium”, still simple */
+    .grain{
+      position:fixed; inset:0; z-index:1; pointer-events:none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='.12'/%3E%3C/svg%3E");
+      mix-blend-mode: overlay;
+      opacity: 0.35;
     }
-    .nav{
+
+    canvas{
+      position:fixed; inset:0; z-index:0;
+      pointer-events:none;
+    }
+
+    .wrap{
+      position:relative;
+      z-index:2;
       max-width: var(--max);
       margin: 0 auto;
-      padding: 14px 18px;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:14px;
+      padding: 90px 18px 86px;
     }
-    .brand{
-      display:flex;
-      align-items:center;
-      gap:10px;
-      text-decoration:none;
-      font-weight:650;
-      letter-spacing:-0.3px;
-    }
-    .mark{
-      width:34px;height:34px;border-radius:12px;
-      background: linear-gradient(135deg, var(--accent1), var(--accent2));
-      display:grid;place-items:center;
-      color:white;font-weight:800;
-      box-shadow: 0 14px 40px rgba(77,163,255,0.18);
-      user-select:none;
-    }
-    nav a{
-      text-decoration:none;
-      font-size:14px;
-      color: rgba(11,18,32,0.72);
-      padding: 8px 10px;
-      border-radius: 10px;
-    }
-    nav a:hover{ background: rgba(77,163,255,0.10); color: rgba(11,18,32,0.92); }
 
-    .btn{
+    .kicker{
       display:inline-flex;
       align-items:center;
-      justify-content:center;
       gap:10px;
-      border:0;
-      border-radius:12px;
-      padding: 10px 14px;
-      color:white;
-      font-weight:650;
-      font-size:14px;
-      cursor:pointer;
-      text-decoration:none;
-      background: linear-gradient(90deg, var(--accent1), var(--accent2));
-      box-shadow: 0 16px 44px rgba(77,163,255,0.18);
-      white-space:nowrap;
+      padding: 8px 12px;
+      border: 1px solid rgba(255,255,255,0.14);
+      border-radius: 999px;
+      background: rgba(255,255,255,0.06);
+      color: rgba(238,242,255,0.85);
+      font-size: 13px;
+      letter-spacing: 0.2px;
+      user-select:none;
     }
-    .btn:hover{ filter: brightness(0.98); }
-
-    /* ====== Layout ====== */
-    main{
-      max-width: var(--max);
-      margin: 0 auto;
-      padding: 44px 18px 90px;
-    }
-
-    /* ====== Hero ====== */
-    .hero{
-      display:grid;
-      grid-template-columns: 1.15fr 0.85fr;
-      gap: 18px;
-      align-items:stretch;
-      margin-top: 16px;
-    }
-
-    .heroCard{
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: calc(var(--radius) + 8px);
-      box-shadow: var(--shadow);
-      backdrop-filter: blur(14px);
-      padding: 34px 26px;
+    .dot{
+      width:8px;height:8px;border-radius:999px;
+      background: linear-gradient(135deg, var(--accent1), var(--accent2));
+      box-shadow: 0 0 0 4px rgba(77,163,255,0.18);
     }
 
     h1{
-      margin:0 0 14px;
-      font-size: clamp(34px, 4.6vw, 54px);
-      line-height: 1.05;
+      margin: 18px 0 12px;
+      font-size: clamp(34px, 4.7vw, 60px);
+      line-height: 1.03;
       letter-spacing: -1.2px;
-      font-weight: 700;
+      font-weight: 650;
     }
 
     .lead{
       margin: 0 0 14px;
       font-size: clamp(16px, 2vw, 20px);
-      line-height: 1.65;
-      color: rgba(11,18,32,0.74);
-      max-width: 70ch;
+      line-height: 1.7;
+      color: var(--muted);
+      max-width: 72ch;
     }
 
-    .metaRow{
-      display:flex;
-      flex-wrap:wrap;
-      gap:10px;
-      margin-top: 18px;
-    }
-    .pill{
-      font-size:13px;
-      padding: 8px 10px;
-      border-radius: 999px;
-      border: 1px solid rgba(17,24,39,0.10);
-      background: rgba(255,255,255,0.65);
-      color: rgba(11,18,32,0.74);
+    .divider{
+      margin: 36px 0 28px;
+      height: 1px;
+      background: linear-gradient(90deg, rgba(77,163,255,0.0), rgba(77,163,255,0.55), rgba(110,139,255,0.0));
     }
 
-    .heroArt{
-      border-radius: calc(var(--radius) + 8px);
-      border: 1px solid var(--border);
-      box-shadow: var(--shadow);
-      overflow:hidden;
-      position:relative;
-      min-height: 320px;
-      background:
-        linear-gradient(180deg, rgba(11,18,32,0.05), rgba(11,18,32,0.25)),
-        url("https://images.unsplash.com/photo-1548199973-03cce0bbc87b?auto=format&fit=crop&w=1400&q=80");
-      background-size: cover;
-      background-position: center;
+    .flowSection{
+      padding: 26px 0;
     }
-    /* swap the image above for a cat / dog / horse hero when you’re ready */
 
-    .heroArtOverlay{
-      position:absolute; inset:0;
-      display:flex;
-      align-items:flex-end;
-      padding: 18px 18px;
-      color: rgba(255,255,255,0.92);
-      font-weight: 600;
+    h2{
+      margin:0 0 10px;
+      font-size: 18px;
+      font-weight: 650;
       letter-spacing: -0.2px;
-      text-shadow: 0 8px 26px rgba(0,0,0,0.35);
-    }
-    .heroArtOverlay span{
-      font-size: 14px;
-      opacity: 0.95;
+      color: rgba(238,242,255,0.92);
     }
 
-    /* ====== Sections ====== */
-    .section{
+    .copy{
+      margin: 0 0 10px;
+      color: var(--faint);
+      line-height: 1.75;
+      font-size: 15.5px;
+      max-width: 78ch;
+    }
+
+    .threeCol{
       margin-top: 18px;
       display:grid;
       grid-template-columns: 1fr 1fr 1fr;
-      gap: 14px;
+      gap: 16px;
+      align-items:start;
     }
 
-    .card{
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      backdrop-filter: blur(14px);
-      padding: 18px 18px;
+    .miniTitle{
+      font-size: 13px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      color: rgba(238,242,255,0.62);
+      margin: 0 0 8px;
     }
-    .card h2{
-      margin:0 0 8px;
-      font-size: 16px;
-      letter-spacing: -0.2px;
-    }
-    .card p{
+
+    .miniText{
       margin:0;
-      color: rgba(11,18,32,0.70);
+      color: rgba(238,242,255,0.70);
       line-height: 1.7;
       font-size: 14.8px;
     }
 
-    .divider{
-      width: 64px;
-      height: 2px;
-      border-radius: 2px;
-      margin: 26px 0 0;
-      background: linear-gradient(90deg, var(--accent1), var(--accent2));
+    .softRule{
+      margin: 32px 0;
+      height: 1px;
+      background: rgba(255,255,255,0.10);
     }
 
-    /* ====== Contact ====== */
-    .contactWrap{
-      margin-top: 18px;
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 14px;
-      align-items:start;
+    /* Contact */
+    .contact{
+      padding-top: 10px;
     }
 
-    form{ margin-top: 8px; }
+    form{
+      margin-top: 10px;
+      max-width: 520px;
+    }
+
     input, textarea{
-      width: 100%;
+      width:100%;
       padding: 13px 14px;
-      margin: 8px 0;
-      border: 1px solid rgba(17,24,39,0.12);
-      background: rgba(255,255,255,0.86);
+      margin: 10px 0;
       border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.16);
+      background: rgba(255,255,255,0.06);
+      color: rgba(238,242,255,0.92);
       font-size: 15px;
-      outline: none;
+      outline:none;
+    }
+    input::placeholder, textarea::placeholder{
+      color: rgba(238,242,255,0.55);
     }
     input:focus, textarea:focus{
       border-color: rgba(77,163,255,0.55);
-      box-shadow: 0 0 0 4px rgba(77,163,255,0.14);
+      box-shadow: 0 0 0 4px rgba(77,163,255,0.15);
     }
+
+    button{
+      margin-top: 6px;
+      padding: 12px 16px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.16);
+      color: rgba(255,255,255,0.95);
+      background: linear-gradient(90deg, rgba(77,163,255,0.95), rgba(110,139,255,0.95));
+      font-weight: 650;
+      font-size: 15px;
+      cursor:pointer;
+    }
+    button:hover{ filter: brightness(0.98); }
+
     .fineprint{
+      margin-top: 10px;
       font-size: 12.5px;
-      color: rgba(75,85,99,0.90);
+      color: rgba(238,242,255,0.58);
       line-height: 1.6;
-      margin-top: 8px;
     }
 
     footer{
-      margin-top: 22px;
-      color: rgba(75,85,99,0.85);
-      font-size: 13px;
-      border-top: 1px solid rgba(17,24,39,0.08);
-      padding-top: 16px;
+      margin-top: 44px;
+      padding-top: 18px;
+      border-top: 1px solid rgba(255,255,255,0.10);
       display:flex;
       justify-content:space-between;
       gap: 12px;
       flex-wrap:wrap;
+      color: rgba(238,242,255,0.60);
+      font-size: 13px;
     }
 
-    /* ====== Responsive ====== */
-    @media (max-width: 900px){
-      .hero{ grid-template-columns: 1fr; }
-      .heroArt{ min-height: 260px; }
-      .section{ grid-template-columns: 1fr; }
-      .contactWrap{ grid-template-columns: 1fr; }
-      nav{ display:none; }
+    /* Responsive */
+    @media (max-width: 860px){
+      .wrap{ padding-top: 72px; }
+      .threeCol{ grid-template-columns: 1fr; }
+    }
+
+    /* Reduced motion */
+    @media (prefers-reduced-motion: reduce){
+      canvas{ display:none; }
     }
   </style>
 </head>
 
 <body>
-  <header>
-    <div class="nav">
-      <a class="brand" href="#top" aria-label="Vetra Bio home">
-        <span class="mark">V</span>
-        <span>Vetra Bio</span>
-      </a>
+  <canvas id="bg" aria-hidden="true"></canvas>
+  <div class="grain" aria-hidden="true"></div>
 
-      <nav aria-label="Site navigation">
-        <a href="#about">About</a>
-        <a href="#focus">Focus</a>
-        <a href="#contact">Reach out</a>
-      </nav>
+  <main class="wrap">
+    <div class="kicker"><span class="dot"></span> Vetra Bio · Cambridge</div>
 
-      <a class="btn" href="#contact">Collaborate →</a>
-    </div>
-  </header>
+    <h1>As we live longer and healthier, so should our beloved companion animals.</h1>
 
-  <main id="top">
-    <section class="hero">
-      <div class="heroCard">
-        <h1>As we live longer and healthier, so should our beloved companion animals.</h1>
+    <p class="lead">
+      Ageing is not just time. It's states. We’re building AI-driven biology to understand how animals age —
+      and how those trajectories can shift.
+    </p>
 
-        <p class="lead">
-          Ageing is not just time. It's states. We’re building AI-driven biology to understand how animals age —
-          and how those trajectories can shift.
-        </p>
+    <p class="lead" style="margin-bottom:0;">
+      Built in Cambridge at the intersection of computational modelling, molecular epigenetics and translational science.
+    </p>
 
-        <p class="lead" style="margin-bottom:0;">
-          Built in Cambridge at the intersection of computational modelling, molecular epigenetics and translational science.
-        </p>
+    <div class="divider"></div>
 
-        <div class="metaRow" id="about" aria-label="Key themes">
-          <span class="pill">Companion animals</span>
-          <span class="pill">Predictive modelling</span>
-          <span class="pill">Longitudinal biology</span>
-          <span class="pill">Translation-minded</span>
+    <section class="flowSection" aria-label="Focus">
+      <h2>What we’re doing now</h2>
+      <p class="copy">
+        We’re opening early collaborations and strategic partnerships across dogs, cats, and horses —
+        starting with predictive modelling and validation-ready biology.
+      </p>
+
+      <div class="threeCol">
+        <div>
+          <div class="miniTitle">Cohorts + data</div>
+          <p class="miniText">Partnering with groups who already have longitudinal samples, records, or real-world outcomes.</p>
         </div>
-
-        <div class="divider"></div>
-      </div>
-
-      <div class="heroArt" aria-label="Pet hero image">
-        <div class="heroArtOverlay">
-          <span>Pet-first longevity & healthspan.</span>
+        <div>
+          <div class="miniTitle">State readouts</div>
+          <p class="miniText">Building measurement strategies that are robust, scalable, and clinically meaningful.</p>
+        </div>
+        <div>
+          <div class="miniTitle">Models</div>
+          <p class="miniText">Developing interpretable predictors of ageing trajectories to guide the next generation of studies.</p>
         </div>
       </div>
     </section>
 
-    <section class="section" id="focus" aria-label="Focus areas">
-      <div class="card">
-        <h2>What we’re building</h2>
-        <p>
-          A modelling stack to read biological state in animals and forecast trajectories across time, environment, and care.
-        </p>
-      </div>
-      <div class="card">
-        <h2>How we start</h2>
-        <p>
-          Predictive capability first — partnering to assemble the right cohorts, measurements, and validation loops.
-        </p>
-      </div>
-      <div class="card">
-        <h2>Why it matters</h2>
-        <p>
-          Better decisions, better studies, and a foundation for precise interventions later — designed for real veterinary use.
-        </p>
-      </div>
-    </section>
+    <div class="softRule"></div>
 
-    <section class="contactWrap" id="contact" aria-label="Contact">
-      <div class="card">
-        <h2>Coming soon</h2>
-        <p>
-          Opening early collaborations and strategic partnerships.
-        </p>
-        <p style="margin-top:10px;">
-          If you work with cohorts, samples, diagnostics, veterinary networks, or pet health platforms — we’d love to talk.
-        </p>
-      </div>
+    <section class="flowSection contact" aria-label="Contact">
+      <h2>Reach out</h2>
+      <p class="copy">
+        If you work with companion animal cohorts, veterinary networks, diagnostics, or translational biology —
+        we’d love to talk.
+      </p>
 
-      <div class="card">
-        <h2>Reach out</h2>
-        <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
-          <input type="email" name="email" placeholder="Your email" required />
-          <textarea name="message" rows="5" placeholder="Message (optional)"></textarea>
-          <button class="btn" type="submit" style="padding:12px 14px;">Send</button>
-        </form>
-        <div class="fineprint">
-          We’ll only use your details to respond to your enquiry.
-        </div>
+      <!-- Replace YOUR_FORM_ID with your Formspree form ID -->
+      <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+        <input type="email" name="email" placeholder="Your email" required />
+        <textarea name="message" rows="5" placeholder="Message (optional)"></textarea>
+        <button type="submit">Send</button>
+      </form>
+
+      <div class="fineprint">
+        We’ll only use your details to respond to your enquiry.
       </div>
     </section>
 
     <footer>
-      <div>© <span id="year"></span> Vetra Bio Ltd · Cambridge, UK</div>
-      <div style="display:flex; gap:12px; flex-wrap:wrap;">
-        <a href="#contact" style="text-decoration:none; color:rgba(75,85,99,0.92);">Contact</a>
-        <a href="#" style="text-decoration:none; color:rgba(75,85,99,0.92);" onclick="alert('Add a privacy page when ready.'); return false;">Privacy</a>
-      </div>
+      <div>© <span id="year"></span> Vetra Bio Ltd</div>
+      <div>Dogs · Cats · Horses</div>
     </footer>
   </main>
 
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Particle background (subtle, continuous)
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const canvas = document.getElementById('bg');
+    const ctx = canvas.getContext('2d', { alpha: true });
+
+    function resize(){
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = Math.floor(window.innerWidth * dpr);
+      canvas.height = Math.floor(window.innerHeight * dpr);
+      canvas.style.width = window.innerWidth + 'px';
+      canvas.style.height = window.innerHeight + 'px';
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+    resize();
+    window.addEventListener('resize', resize);
+
+    if (!prefersReducedMotion){
+      const W = () => window.innerWidth;
+      const H = () => window.innerHeight;
+
+      const COUNT = Math.max(58, Math.min(92, Math.floor((W() * H()) / 24000)));
+      const LINK = 140;
+
+      const pts = Array.from({length: COUNT}, () => ({
+        x: Math.random() * W(),
+        y: Math.random() * H(),
+        vx: (Math.random() - 0.5) * 0.35,
+        vy: (Math.random() - 0.5) * 0.35
+      }));
+
+      function draw(){
+        ctx.clearRect(0,0,W(),H());
+
+        // dots
+        for (const p of pts){
+          p.x += p.vx; p.y += p.vy;
+          if (p.x < 0 || p.x > W()) p.vx *= -1;
+          if (p.y < 0 || p.y > H()) p.vy *= -1;
+
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, 1.8, 0, Math.PI*2);
+          ctx.fillStyle = "rgba(77,163,255,0.28)";
+          ctx.fill();
+        }
+
+        // lines
+        for (let i=0;i<pts.length;i++){
+          for (let j=i+1;j<pts.length;j++){
+            const dx = pts[i].x - pts[j].x;
+            const dy = pts[i].y - pts[j].y;
+            const d = Math.sqrt(dx*dx + dy*dy);
+            if (d < LINK){
+              ctx.beginPath();
+              ctx.moveTo(pts[i].x, pts[i].y);
+              ctx.lineTo(pts[j].x, pts[j].y);
+              ctx.strokeStyle = `rgba(110,139,255,${(1 - d/LINK) * 0.10})`;
+              ctx.stroke();
+            }
+          }
+        }
+
+        requestAnimationFrame(draw);
+      }
+      draw();
+    }
   </script>
 </body>
 </html>
