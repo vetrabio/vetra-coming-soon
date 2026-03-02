@@ -29,7 +29,7 @@
       overflow-x:hidden;
     }
 
-    /* Subtle background wash (keeps it “brand”, not “tech demo”) */
+    /* Subtle brand wash (light, clean) */
     .bgwash{
       position: fixed;
       inset: 0;
@@ -42,13 +42,12 @@
 
     main{ position: relative; z-index: 1; }
 
-    /* ===== HERO: text beside full-bleed image ===== */
+    /* ===== HERO: text beside ONE full-bleed image ===== */
     .hero{
       min-height: 100vh;
       display: grid;
-      grid-template-columns: minmax(320px, 1fr) minmax(420px, 1.1fr);
+      grid-template-columns: minmax(320px, 1fr) minmax(520px, 1.2fr);
       align-items: stretch;
-      background: transparent; /* continuous page */
     }
 
     .heroText{
@@ -60,7 +59,7 @@
 
     .heroTextInner{
       max-width: var(--maxText);
-      margin-left: clamp(18px, 5vw, 60px);
+      margin-left: clamp(18px, 5vw, 64px);
       margin-right: clamp(18px, 3vw, 36px);
     }
 
@@ -71,7 +70,7 @@
       padding: 8px 12px;
       border: 1px solid rgba(11,18,32,0.10);
       border-radius: 999px;
-      background: rgba(255,255,255,0.75);
+      background: rgba(255,255,255,0.78);
       color: rgba(11,18,32,0.82);
       font-size: 13px;
       letter-spacing: 0.2px;
@@ -116,54 +115,29 @@
       background: linear-gradient(90deg, rgba(11,18,32,0.0), rgba(11,18,32,0.14), rgba(11,18,32,0.0));
     }
 
-    /* Right side: full-bleed, crisp imagery */
     .heroImage{
       position: relative;
       overflow: hidden;
-      /* full bleed to edges */
+      /* edge-to-edge */
     }
 
-    .imageStack{
-      position:absolute; inset:0;
-      display:grid;
-      grid-template-rows: 1fr 1fr 1fr; /* dog / cat / horse strips */
-    }
-
-    .imgPanel{
-      position: relative;
-      overflow:hidden;
-    }
-
-    .imgPanel::after{
+    .heroImage::before{
       content:"";
-      position:absolute; inset:0;
-      /* soft white fade + slight overlay so it blends with page */
-      background: linear-gradient(90deg, rgba(255,255,255,0.55) 0%, rgba(255,255,255,0.0) 42%, rgba(255,255,255,0.0) 100%);
+      position:absolute;
+      inset:0;
+      /* soft fade into the white page on the left side */
+      background: linear-gradient(90deg, rgba(255,255,255,0.70) 0%, rgba(255,255,255,0.10) 42%, rgba(255,255,255,0.00) 70%);
       pointer-events:none;
+      z-index: 2;
     }
 
-    .imgPanel img{
+    .heroImage img{
       width:100%;
       height:100%;
       object-fit: cover;
       display:block;
-      /* extra crispness */
-      transform: scale(1.03);
+      transform: scale(1.02);
       filter: saturate(1.02) contrast(1.03);
-    }
-
-    .imgLabel{
-      position:absolute;
-      left: 18px;
-      bottom: 16px;
-      font-size: 12px;
-      letter-spacing: 0.35px;
-      color: rgba(11,18,32,0.72);
-      background: rgba(255,255,255,0.78);
-      border: 1px solid rgba(11,18,32,0.10);
-      border-radius: 999px;
-      padding: 6px 10px;
-      backdrop-filter: blur(6px);
     }
 
     /* ===== CONTACT (continuous, not boxed) ===== */
@@ -247,23 +221,17 @@
 
     /* ===== Responsive ===== */
     @media (max-width: 980px){
-      .hero{
-        grid-template-columns: 1fr;
-      }
-      .heroText{
-        padding-bottom: 22px;
-      }
-      .heroTextInner{
-        margin-left: 0;
-        margin-right: 0;
-      }
+      .hero{ grid-template-columns: 1fr; }
+      .heroText{ padding-bottom: 22px; }
+      .heroTextInner{ margin-left: 0; margin-right: 0; }
+
       .heroImage{
-        height: 64vh; /* still big & clear */
+        height: 62vh;   /* still big & clear */
         min-height: 420px;
       }
-      .imgPanel::after{
-        /* softer overlay on mobile */
-        background: linear-gradient(180deg, rgba(255,255,255,0.55) 0%, rgba(255,255,255,0.0) 55%);
+      .heroImage::before{
+        /* gentler fade on mobile */
+        background: linear-gradient(180deg, rgba(255,255,255,0.60) 0%, rgba(255,255,255,0.05) 55%, rgba(255,255,255,0.00) 100%);
       }
     }
   </style>
@@ -294,34 +262,13 @@
         </div>
       </div>
 
-      <!-- Full-bleed imagery. Replace these URLs with your own photos anytime. -->
-      <div class="heroImage" aria-label="Dogs, cats, and horses imagery">
-        <div class="imageStack">
-          <div class="imgPanel">
-            <img
-              src="https://images.unsplash.com/photo-1552053831-71594a27632d?auto=format&fit=crop&w=2200&q=85"
-              alt="Dog"
-              loading="eager"
-            />
-            <div class="imgLabel">Dogs</div>
-          </div>
-          <div class="imgPanel">
-            <img
-              src="https://images.unsplash.com/photo-1518791841217-8f162f1e1131?auto=format&fit=crop&w=2200&q=85"
-              alt="Cat"
-              loading="lazy"
-            />
-            <div class="imgLabel">Cats</div>
-          </div>
-          <div class="imgPanel">
-            <img
-              src="https://images.unsplash.com/photo-1517849845537-4d257902454a?auto=format&fit=crop&w=2200&q=85"
-              alt="Horse"
-              loading="lazy"
-            />
-            <div class="imgLabel">Horses</div>
-          </div>
-        </div>
+      <!-- ONE hero photo (high-res, full height). Swap this URL for your own brand photo anytime. -->
+      <div class="heroImage" aria-label="Companion animals hero image">
+        <img
+          src="https://images.unsplash.com/photo-1548199973-03cce0bbc87b?auto=format&fit=crop&w=2600&q=90"
+          alt="Companion animals"
+          loading="eager"
+        />
       </div>
     </section>
 
