@@ -8,20 +8,19 @@
 
   <style>
     :root{
-      --bg: #ffffff;
-      --text: #0b1220;
-      --muted: rgba(11,18,32,0.70);
-      --faint: rgba(11,18,32,0.55);
+      --bg:#ffffff;
+      --text:#0b1220;
+      --muted: rgba(11,18,32,0.72);
+      --faint: rgba(11,18,32,0.56);
       --line: rgba(11,18,32,0.10);
-      --accent1: #4da3ff;
-      --accent2: #6e8bff;
+      --accent1:#4da3ff;
+      --accent2:#6e8bff;
 
-      --maxHero: 1180px; /* wider, editorial */
-      --maxBody: 980px;
+      --maxText: 720px;
     }
 
-    *{ box-sizing: border-box; }
-    html, body { height: 100%; }
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
     body{
       margin:0;
       font-family: -apple-system, BlinkMacSystemFont, "Inter", system-ui, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
@@ -30,38 +29,39 @@
       overflow-x:hidden;
     }
 
-    /* Soft “brand” background blobs (no tech demo) */
-    .bgFX{
+    /* Subtle background wash (keeps it “brand”, not “tech demo”) */
+    .bgwash{
       position: fixed;
       inset: 0;
       z-index: 0;
       pointer-events: none;
       background:
-        radial-gradient(900px 560px at 18% 10%, rgba(77,163,255,0.10), transparent 60%),
-        radial-gradient(900px 560px at 92% 8%, rgba(110,139,255,0.08), transparent 60%),
-        radial-gradient(700px 520px at 55% 90%, rgba(77,163,255,0.06), transparent 65%);
+        radial-gradient(900px 520px at 18% 10%, rgba(77,163,255,0.10), transparent 60%),
+        radial-gradient(900px 520px at 92% 12%, rgba(110,139,255,0.08), transparent 60%);
     }
 
-    /* Very subtle grain for “print” feel */
-    .grain{
-      position: fixed;
-      inset: 0;
-      z-index: 1;
-      pointer-events: none;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='.10'/%3E%3C/svg%3E");
-      mix-blend-mode: multiply;
-      opacity: 0.10;
+    main{ position: relative; z-index: 1; }
+
+    /* ===== HERO: text beside full-bleed image ===== */
+    .hero{
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: minmax(320px, 1fr) minmax(420px, 1.1fr);
+      align-items: stretch;
+      background: transparent; /* continuous page */
     }
 
-    main{
-      position: relative;
-      z-index: 2;
+    .heroText{
+      padding: 86px 26px 54px;
+      display:flex;
+      flex-direction: column;
+      justify-content: center;
     }
 
-    .heroWrap{
-      max-width: var(--maxHero);
-      margin: 0 auto;
-      padding: 92px 22px 18px;
+    .heroTextInner{
+      max-width: var(--maxText);
+      margin-left: clamp(18px, 5vw, 60px);
+      margin-right: clamp(18px, 3vw, 36px);
     }
 
     .kicker{
@@ -71,10 +71,11 @@
       padding: 8px 12px;
       border: 1px solid rgba(11,18,32,0.10);
       border-radius: 999px;
-      background: rgba(255,255,255,0.70);
-      color: rgba(11,18,32,0.80);
+      background: rgba(255,255,255,0.75);
+      color: rgba(11,18,32,0.82);
       font-size: 13px;
       letter-spacing: 0.2px;
+      width: fit-content;
       user-select:none;
     }
     .dot{
@@ -83,94 +84,99 @@
       box-shadow: 0 0 0 4px rgba(77,163,255,0.14);
     }
 
-    /* Typographic hero: wider + more editorial */
     h1{
-      margin: 20px 0 14px;
-      font-size: clamp(42px, 5.8vw, 82px);
+      margin: 18px 0 14px;
+      font-size: clamp(40px, 4.8vw, 72px);
       line-height: 0.98;
-      letter-spacing: -1.9px;
+      letter-spacing: -1.8px;
       font-weight: 650;
       text-wrap: balance;
-      max-width: 34ch; /* wide but still designed */
+      max-width: 28ch;
     }
 
     .lead{
       margin: 0 0 14px;
-      font-size: clamp(16px, 2.05vw, 21px);
+      font-size: clamp(16px, 1.8vw, 20px);
       line-height: 1.72;
       color: var(--muted);
-      max-width: 92ch;
+      max-width: 86ch;
+    }
+
+    .meta{
+      margin-top: 18px;
+      color: rgba(11,18,32,0.70);
+      font-size: 13px;
+      letter-spacing: 0.3px;
     }
 
     .rule{
-      margin: 34px 0 0;
+      margin-top: 26px;
       height: 1px;
-      background: linear-gradient(
-        90deg,
-        rgba(11,18,32,0.00),
-        rgba(11,18,32,0.16),
-        rgba(11,18,32,0.00)
-      );
+      width: min(520px, 100%);
+      background: linear-gradient(90deg, rgba(11,18,32,0.0), rgba(11,18,32,0.14), rgba(11,18,32,0.0));
     }
 
-    /* Full-width image band that fades into the page */
-    .band{
+    /* Right side: full-bleed, crisp imagery */
+    .heroImage{
       position: relative;
-      width: 100%;
-      height: clamp(240px, 34vw, 420px);
-      margin-top: 34px;
       overflow: hidden;
-
-      /* fade top/bottom into white background */
-      -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 14%, #000 86%, transparent 100%);
-              mask-image: linear-gradient(180deg, transparent 0%, #000 14%, #000 86%, transparent 100%);
+      /* full bleed to edges */
     }
 
-    .bandImg{
-      position:absolute;
-      inset:0;
-      background:
-        url("https://images.unsplash.com/photo-1548199973-03cce0bbc87b?auto=format&fit=crop&w=2400&q=80")
-        center / cover no-repeat;
-      transform: scale(1.02);
-      filter: saturate(0.95) contrast(1.02);
+    .imageStack{
+      position:absolute; inset:0;
+      display:grid;
+      grid-template-rows: 1fr 1fr 1fr; /* dog / cat / horse strips */
     }
 
-    /* soft overlay so type below feels cohesive */
-    .band::after{
+    .imgPanel{
+      position: relative;
+      overflow:hidden;
+    }
+
+    .imgPanel::after{
       content:"";
-      position:absolute;
-      inset:0;
-      background:
-        radial-gradient(900px 520px at 50% 15%, rgba(255,255,255,0.30), transparent 60%),
-        linear-gradient(180deg, rgba(255,255,255,0.90) 0%, rgba(255,255,255,0.10) 22%, rgba(255,255,255,0.10) 78%, rgba(255,255,255,0.90) 100%);
+      position:absolute; inset:0;
+      /* soft white fade + slight overlay so it blends with page */
+      background: linear-gradient(90deg, rgba(255,255,255,0.55) 0%, rgba(255,255,255,0.0) 42%, rgba(255,255,255,0.0) 100%);
       pointer-events:none;
     }
 
-    .bandCaption{
-      position:absolute;
-      left:0; right:0;
-      bottom: 18px;
-      padding: 0 22px;
-      z-index: 3;
-    }
-    .bandCaptionInner{
-      max-width: var(--maxHero);
-      margin: 0 auto;
-      color: rgba(11,18,32,0.70);
-      font-size: 13px;
-      letter-spacing: 0.25px;
+    .imgPanel img{
+      width:100%;
+      height:100%;
+      object-fit: cover;
+      display:block;
+      /* extra crispness */
+      transform: scale(1.03);
+      filter: saturate(1.02) contrast(1.03);
     }
 
-    /* Body (still continuous, no “cards”) */
-    .bodyWrap{
-      max-width: var(--maxBody);
+    .imgLabel{
+      position:absolute;
+      left: 18px;
+      bottom: 16px;
+      font-size: 12px;
+      letter-spacing: 0.35px;
+      color: rgba(11,18,32,0.72);
+      background: rgba(255,255,255,0.78);
+      border: 1px solid rgba(11,18,32,0.10);
+      border-radius: 999px;
+      padding: 6px 10px;
+      backdrop-filter: blur(6px);
+    }
+
+    /* ===== CONTACT (continuous, not boxed) ===== */
+    .contact{
+      padding: 56px 22px 84px;
+    }
+    .contactInner{
+      max-width: 980px;
       margin: 0 auto;
-      padding: 26px 22px 84px;
     }
 
     h2{
-      margin: 34px 0 10px;
+      margin:0 0 10px;
       font-size: 18px;
       font-weight: 650;
       letter-spacing: -0.2px;
@@ -182,7 +188,7 @@
       color: var(--faint);
       line-height: 1.78;
       font-size: 15.5px;
-      max-width: 92ch;
+      max-width: 90ch;
     }
 
     form{
@@ -196,14 +202,12 @@
       margin: 10px 0;
       border-radius: 12px;
       border: 1px solid rgba(11,18,32,0.14);
-      background: rgba(255,255,255,0.92);
+      background: rgba(255,255,255,0.96);
       color: rgba(11,18,32,0.92);
       font-size: 15px;
       outline:none;
     }
-    input::placeholder, textarea::placeholder{
-      color: rgba(11,18,32,0.50);
-    }
+    input::placeholder, textarea::placeholder{ color: rgba(11,18,32,0.50); }
     input:focus, textarea:focus{
       border-color: rgba(77,163,255,0.55);
       box-shadow: 0 0 0 4px rgba(77,163,255,0.14);
@@ -230,7 +234,7 @@
     }
 
     footer{
-      margin-top: 44px;
+      margin-top: 40px;
       padding-top: 18px;
       border-top: 1px solid rgba(11,18,32,0.10);
       display:flex;
@@ -241,64 +245,108 @@
       font-size: 13px;
     }
 
-    @media (max-width: 860px){
-      .heroWrap{ padding-top: 72px; }
-      h1{ letter-spacing: -1.3px; max-width: 30ch; }
+    /* ===== Responsive ===== */
+    @media (max-width: 980px){
+      .hero{
+        grid-template-columns: 1fr;
+      }
+      .heroText{
+        padding-bottom: 22px;
+      }
+      .heroTextInner{
+        margin-left: 0;
+        margin-right: 0;
+      }
+      .heroImage{
+        height: 64vh; /* still big & clear */
+        min-height: 420px;
+      }
+      .imgPanel::after{
+        /* softer overlay on mobile */
+        background: linear-gradient(180deg, rgba(255,255,255,0.55) 0%, rgba(255,255,255,0.0) 55%);
+      }
     }
   </style>
 </head>
 
 <body>
-  <div class="bgFX" aria-hidden="true"></div>
-  <div class="grain" aria-hidden="true"></div>
+  <div class="bgwash" aria-hidden="true"></div>
 
   <main>
-    <section class="heroWrap">
-      <div class="kicker"><span class="dot"></span> Vetra Bio · Cambridge</div>
+    <section class="hero" aria-label="Vetra Bio hero">
+      <div class="heroText">
+        <div class="heroTextInner">
+          <div class="kicker"><span class="dot"></span> Vetra Bio · Cambridge</div>
 
-      <h1>As we live longer and healthier, so should our beloved companion animals.</h1>
+          <h1>As we live longer and healthier, so should our beloved companion animals.</h1>
 
-      <p class="lead">
-        Ageing is not just time. It's states. We’re building AI-driven biology to understand how animals age —
-        and how those trajectories can shift.
-      </p>
+          <p class="lead">
+            Ageing is not just time. It's states. We’re building AI-driven biology to understand how animals age —
+            and how those trajectories can shift.
+          </p>
 
-      <p class="lead" style="margin-bottom:0;">
-        Built in Cambridge at the intersection of computational modelling, molecular epigenetics and translational science.
-      </p>
+          <p class="lead" style="margin-bottom:0;">
+            Built in Cambridge at the intersection of computational modelling, molecular epigenetics and translational science.
+          </p>
 
-      <div class="rule"></div>
-    </section>
+          <div class="meta">Dogs · Cats · Horses</div>
+          <div class="rule" aria-hidden="true"></div>
+        </div>
+      </div>
 
-    <section class="band" aria-label="Companion animals image band">
-      <div class="bandImg" aria-hidden="true"></div>
-      <div class="bandCaption">
-        <div class="bandCaptionInner">Dogs · Cats · Horses</div>
+      <!-- Full-bleed imagery. Replace these URLs with your own photos anytime. -->
+      <div class="heroImage" aria-label="Dogs, cats, and horses imagery">
+        <div class="imageStack">
+          <div class="imgPanel">
+            <img
+              src="https://images.unsplash.com/photo-1552053831-71594a27632d?auto=format&fit=crop&w=2200&q=85"
+              alt="Dog"
+              loading="eager"
+            />
+            <div class="imgLabel">Dogs</div>
+          </div>
+          <div class="imgPanel">
+            <img
+              src="https://images.unsplash.com/photo-1518791841217-8f162f1e1131?auto=format&fit=crop&w=2200&q=85"
+              alt="Cat"
+              loading="lazy"
+            />
+            <div class="imgLabel">Cats</div>
+          </div>
+          <div class="imgPanel">
+            <img
+              src="https://images.unsplash.com/photo-1517849845537-4d257902454a?auto=format&fit=crop&w=2200&q=85"
+              alt="Horse"
+              loading="lazy"
+            />
+            <div class="imgLabel">Horses</div>
+          </div>
+        </div>
       </div>
     </section>
 
-    <section class="bodyWrap" aria-label="Contact">
-      <h2>Reach out</h2>
-      <p class="copy">
-        If you work with companion animal cohorts, veterinary networks, diagnostics, or translational biology —
-        we’d love to talk.
-      </p>
+    <section class="contact" aria-label="Contact">
+      <div class="contactInner">
+        <h2>Reach out</h2>
+        <p class="copy">
+          If you work with companion animal cohorts, veterinary networks, diagnostics, or translational biology —
+          we’d love to talk.
+        </p>
 
-      <!-- Replace YOUR_FORM_ID with your Formspree form ID -->
-      <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
-        <input type="email" name="email" placeholder="Your email" required />
-        <textarea name="message" rows="5" placeholder="Message (optional)"></textarea>
-        <button type="submit">Send</button>
-      </form>
+        <!-- Replace YOUR_FORM_ID with your Formspree form ID -->
+        <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+          <input type="email" name="email" placeholder="Your email" required />
+          <textarea name="message" rows="5" placeholder="Message (optional)"></textarea>
+          <button type="submit">Send</button>
+        </form>
 
-      <div class="fineprint">
-        We’ll only use your details to respond to your enquiry.
+        <div class="fineprint">We’ll only use your details to respond to your enquiry.</div>
+
+        <footer>
+          <div>© <span id="year"></span> Vetra Bio Ltd</div>
+          <div>Cambridge, UK</div>
+        </footer>
       </div>
-
-      <footer>
-        <div>© <span id="year"></span> Vetra Bio Ltd</div>
-        <div>Cambridge, UK</div>
-      </footer>
     </section>
   </main>
 
