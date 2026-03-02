@@ -3,16 +3,55 @@
 <head>
   <title>Vetra Bio</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <style>
     body {
       margin: 0;
       font-family: -apple-system, BlinkMacSystemFont, "Inter", sans-serif;
-      background: radial-gradient(circle at 20% 30%, rgba(77,163,255,0.08), transparent 40%),
-                  radial-gradient(circle at 80% 70%, rgba(255,255,255,0.05), transparent 40%),
-                  linear-gradient(180deg, #0B0F1A 0%, #06080F 100%);
-      color: #ffffff;
+      background: linear-gradient(180deg, #f8fafc 0%, #eef2f7 100%);
+      color: #111827;
+      overflow-x: hidden;
+    }
+
+    /* Floating background shapes */
+    .bg-shape {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.4;
+      animation: float 20s infinite ease-in-out;
+    }
+
+    .shape1 {
+      width: 500px;
+      height: 500px;
+      background: #c7e0ff;
+      top: -100px;
+      left: -150px;
+    }
+
+    .shape2 {
+      width: 600px;
+      height: 600px;
+      background: #e2f3ff;
+      bottom: -200px;
+      right: -200px;
+      animation-delay: 5s;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(40px); }
+      100% { transform: translateY(0px); }
+    }
+
+    .container {
+      position: relative;
+      z-index: 2;
       text-align: center;
-      padding: 100px 20px;
+      padding: 120px 20px;
+      max-width: 900px;
+      margin: auto;
     }
 
     h1 {
@@ -24,17 +63,21 @@
 
     p {
       font-size: 20px;
-      max-width: 720px;
-      margin: 0 auto 24px auto;
-      color: rgba(255,255,255,0.75);
       line-height: 1.6;
+      margin-bottom: 24px;
+      color: #374151;
     }
 
     .divider {
       width: 60px;
       height: 2px;
-      background: linear-gradient(90deg, #4DA3FF, transparent);
+      background: #4da3ff;
       margin: 60px auto;
+    }
+
+    h2 {
+      font-weight: 500;
+      margin-bottom: 16px;
     }
 
     .section {
@@ -46,9 +89,8 @@
       max-width: 420px;
       padding: 14px;
       margin: 10px 0;
-      border: 1px solid rgba(255,255,255,0.1);
-      background: rgba(255,255,255,0.05);
-      color: white;
+      border: 1px solid #d1d5db;
+      background: white;
       border-radius: 8px;
       font-size: 16px;
     }
@@ -56,56 +98,58 @@
     button {
       padding: 14px 28px;
       border: none;
-      background: linear-gradient(90deg, #4DA3FF, #6E8BFF);
+      background: linear-gradient(90deg, #4da3ff, #6e8bff);
       color: white;
       border-radius: 8px;
       font-size: 16px;
       cursor: pointer;
       margin-top: 10px;
-      transition: opacity 0.2s ease;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
 
     button:hover {
-      opacity: 0.85;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(77,163,255,0.3);
     }
-
-    h2 {
-      font-weight: 500;
-      margin-bottom: 16px;
-    }
-
   </style>
 </head>
+
 <body>
 
-  <h1>Ageing Is Not Just Time. It’s State.</h1>
+  <div class="bg-shape shape1"></div>
+  <div class="bg-shape shape2"></div>
 
-  <p>
-    We are building AI-driven biology to understand how animals age —
-    and how those trajectories can shift.
-  </p>
+  <div class="container">
+    <h1>Ageing Is Not Just Time. It’s State.</h1>
 
-  <p>
-    Built in Cambridge at the intersection of epigenetics,
-    machine learning and translational science.
-  </p>
-
-  <div class="divider"></div>
-
-  <div class="section">
-    <h2>Coming Soon</h2>
     <p>
-      Opening early collaborations and strategic partnerships.
+      We are building AI-driven biology to understand how animals age —
+      and how those trajectories can shift.
     </p>
-  </div>
 
-  <div class="section">
-    <h2>Reach Out</h2>
-    <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
-      <input type="email" name="email" placeholder="Your email" required><br>
-      <textarea name="message" rows="4" placeholder="Message"></textarea><br>
-      <button type="submit">Send</button>
-    </form>
+    <p>
+      Built in Cambridge at the intersection of epigenetics,
+      machine learning and translational science.
+    </p>
+
+    <div class="divider"></div>
+
+    <div class="section">
+      <h2>Coming Soon</h2>
+      <p>
+        Opening early collaborations and strategic partnerships.
+      </p>
+    </div>
+
+    <div class="section">
+      <h2>Reach Out</h2>
+      <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+        <input type="email" name="email" placeholder="Your email" required><br>
+        <textarea name="message" rows="4" placeholder="Message"></textarea><br>
+        <button type="submit">Send</button>
+      </form>
+    </div>
+
   </div>
 
 </body>
