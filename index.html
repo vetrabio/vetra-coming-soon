@@ -48,21 +48,21 @@
     main{ position: relative; z-index: 1; }
 
     /* HERO: hero image is the background of this section */
-    .hero {
-  position: relative;
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  overflow: hidden;
-  background-color: #fff;
+    .hero{
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+      background-color: #fff;
 
-  background-image: url(https://images.unsplash.com/photo-1548199973-03cce0bbc87b?auto=format&fit=crop&w=3200&q=90);
-  background-size: cover;
-  background-repeat: no-repeat;
+      background-image: url(https://images.unsplash.com/photo-1548199973-03cce0bbc87b?auto=format&fit=crop&w=3200&q=90);
+      background-size: cover;
+      background-repeat: no-repeat;
 
-  /* This is the crop control */
-  background-position: var(--heroX) var(--heroY);
-  }
+      /* This is the crop control */
+      background-position: var(--heroX) var(--heroY);
+    }
 
     /* Left-side veil */
     .heroVeil{
@@ -212,6 +212,24 @@
       font-size: 13px;
     }
 
+    /* 13-inch laptops: keep text left + reveal more of the dog by reducing the veil */
+    @media (min-width: 981px) and (max-width: 1399px){
+      .heroInner{
+        margin-left: 0;
+        max-width: 640px;
+      }
+
+      .heroVeil{
+        background: linear-gradient(90deg,
+          rgba(255,255,255,0.96) 0%,
+          rgba(255,255,255,0.92) 20%,
+          rgba(255,255,255,0.55) 32%,
+          rgba(255,255,255,0.18) 42%,
+          rgba(255,255,255,0.00) 50%
+        );
+      }
+    }
+
     /* Ultra-wide: push further right + slightly larger */
     @media (min-width: 1400px){
       :root{ --heroX: 100%; }
@@ -235,8 +253,7 @@
           rgba(255,255,255,0.00) 100%
         );
       }
-  }
-}
+    }
   </style>
 </head>
 
@@ -250,11 +267,11 @@
 
       <div class="heroContent">
         <div class="heroInner">
-          <h1>As we live longer and healthier, so should our beloved companion animals.</h1>
+          <h1>As We Live Longer and Healthier, So Should Our Companion Animals.</h1>
 
           <p class="lead">
-            Ageing is not just time. It's states. We’re building AI-driven biology to understand how animals age —
-            and how those trajectories can shift.
+            Ageing is not defined by years, but by biological states.
+            At Vetra Bio, we use AI/ML to decode evolutionarily conserved ageing mechanisms — and understand how those trajectories can be shifted toward longer, healthier lives.
           </p>
 
           <p class="lead" style="margin-bottom:0;">
@@ -270,8 +287,7 @@
       <div class="contactInner">
         <h2>Reach out</h2>
         <p class="copy">
-          If you work with companion animal cohorts, veterinary networks, diagnostics, or translational biology —
-          we’d love to talk.
+          If you’re involved in companion animal cohorts, veterinary networks, diagnostics, or translational biology — or are simply curious about what we’re building — we’d love to connect.
         </p>
 
         <!-- Replace YOUR_FORM_ID with your Formspree form ID -->
