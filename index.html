@@ -17,6 +17,7 @@
       --accent2:#6e8bff;
 
       --maxText: 720px;
+      --maxContact: 980px;
     }
 
     *{ box-sizing:border-box; }
@@ -29,7 +30,7 @@
       overflow-x:hidden;
     }
 
-    /* Subtle brand wash (light, clean) */
+    /* subtle light brand wash */
     .bgwash{
       position: fixed;
       inset: 0;
@@ -42,50 +43,78 @@
 
     main{ position: relative; z-index: 1; }
 
-    /* ===== HERO: text beside ONE full-bleed image ===== */
+    /* ===== HERO =====
+       Full-width image spans the entire hero area (behind text).
+       Text sits on top, left-aligned, clean and editorial.
+    */
     .hero{
+      position: relative;
       min-height: 100vh;
-      display: grid;
-      grid-template-columns: minmax(320px, 1fr) minmax(520px, 1.2fr);
-      align-items: stretch;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+      background: #fff;
     }
 
-    .heroText{
-      padding: 86px 26px 54px;
-      display:flex;
-      flex-direction: column;
-      justify-content: center;
+    .heroImage{
+      position:absolute;
+      inset:0;
+      z-index:0;
     }
 
-    .heroTextInner{
+    .heroImage img{
+      width:100%;
+      height:100%;
+      object-fit: cover;
+      object-position: center;
+      display:block;
+      transform: scale(1.02);
+      filter: saturate(1.02) contrast(1.03);
+    }
+
+    /* White veil so text reads well; fades to transparent towards right */
+    .heroVeil{
+      position:absolute;
+      inset:0;
+      z-index:1;
+      pointer-events:none;
+      background:
+        linear-gradient(90deg,
+          rgba(255,255,255,0.92) 0%,
+          rgba(255,255,255,0.82) 28%,
+          rgba(255,255,255,0.45) 52%,
+          rgba(255,255,255,0.00) 74%
+        );
+    }
+
+    /* Extra soft top/bottom fade so image feels integrated with the page */
+    .heroFade{
+      position:absolute;
+      inset:0;
+      z-index:1;
+      pointer-events:none;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.85) 0%, rgba(255,255,255,0.00) 22%, rgba(255,255,255,0.00) 78%, rgba(255,255,255,0.92) 100%);
+      mix-blend-mode: normal;
+      opacity: 0.55;
+    }
+
+    .heroContent{
+      position: relative;
+      z-index:2;
+      width: 100%;
+      padding: 92px 22px 70px;
+    }
+
+    .heroInner{
       max-width: var(--maxText);
-      margin-left: clamp(18px, 5vw, 64px);
-      margin-right: clamp(18px, 3vw, 36px);
-    }
-
-    .kicker{
-      display:inline-flex;
-      align-items:center;
-      gap:10px;
-      padding: 8px 12px;
-      border: 1px solid rgba(11,18,32,0.10);
-      border-radius: 999px;
-      background: rgba(255,255,255,0.78);
-      color: rgba(11,18,32,0.82);
-      font-size: 13px;
-      letter-spacing: 0.2px;
-      width: fit-content;
-      user-select:none;
-    }
-    .dot{
-      width:8px;height:8px;border-radius:999px;
-      background: linear-gradient(135deg, var(--accent1), var(--accent2));
-      box-shadow: 0 0 0 4px rgba(77,163,255,0.14);
+      margin-left: clamp(18px, 6vw, 84px);
+      margin-right: 22px;
     }
 
     h1{
-      margin: 18px 0 14px;
-      font-size: clamp(40px, 4.8vw, 72px);
+      margin: 0 0 14px;
+      font-size: clamp(42px, 5.2vw, 76px);
       line-height: 0.98;
       letter-spacing: -1.8px;
       font-weight: 650;
@@ -95,17 +124,10 @@
 
     .lead{
       margin: 0 0 14px;
-      font-size: clamp(16px, 1.8vw, 20px);
+      font-size: clamp(16px, 1.9vw, 20px);
       line-height: 1.72;
       color: var(--muted);
       max-width: 86ch;
-    }
-
-    .meta{
-      margin-top: 18px;
-      color: rgba(11,18,32,0.70);
-      font-size: 13px;
-      letter-spacing: 0.3px;
     }
 
     .rule{
@@ -115,37 +137,12 @@
       background: linear-gradient(90deg, rgba(11,18,32,0.0), rgba(11,18,32,0.14), rgba(11,18,32,0.0));
     }
 
-    .heroImage{
-      position: relative;
-      overflow: hidden;
-      /* edge-to-edge */
-    }
-
-    .heroImage::before{
-      content:"";
-      position:absolute;
-      inset:0;
-      /* soft fade into the white page on the left side */
-      background: linear-gradient(90deg, rgba(255,255,255,0.70) 0%, rgba(255,255,255,0.10) 42%, rgba(255,255,255,0.00) 70%);
-      pointer-events:none;
-      z-index: 2;
-    }
-
-    .heroImage img{
-      width:100%;
-      height:100%;
-      object-fit: cover;
-      display:block;
-      transform: scale(1.02);
-      filter: saturate(1.02) contrast(1.03);
-    }
-
-    /* ===== CONTACT (continuous, not boxed) ===== */
+    /* ===== CONTACT ===== */
     .contact{
       padding: 56px 22px 84px;
     }
     .contactInner{
-      max-width: 980px;
+      max-width: var(--maxContact);
       margin: 0 auto;
     }
 
@@ -221,17 +218,23 @@
 
     /* ===== Responsive ===== */
     @media (max-width: 980px){
-      .hero{ grid-template-columns: 1fr; }
-      .heroText{ padding-bottom: 22px; }
-      .heroTextInner{ margin-left: 0; margin-right: 0; }
-
-      .heroImage{
-        height: 62vh;   /* still big & clear */
-        min-height: 420px;
+      .heroContent{
+        padding: 78px 18px 44px;
       }
-      .heroImage::before{
-        /* gentler fade on mobile */
-        background: linear-gradient(180deg, rgba(255,255,255,0.60) 0%, rgba(255,255,255,0.05) 55%, rgba(255,255,255,0.00) 100%);
+      .heroInner{
+        margin-left: 0;
+        margin-right: 0;
+        max-width: 720px;
+      }
+
+      /* On mobile, use top-down veil so text reads over image */
+      .heroVeil{
+        background: linear-gradient(180deg,
+          rgba(255,255,255,0.92) 0%,
+          rgba(255,255,255,0.72) 34%,
+          rgba(255,255,255,0.10) 70%,
+          rgba(255,255,255,0.00) 100%
+        );
       }
     }
   </style>
@@ -242,10 +245,22 @@
 
   <main>
     <section class="hero" aria-label="Vetra Bio hero">
-      <div class="heroText">
-        <div class="heroTextInner">
-          <div class="kicker"><span class="dot"></span> Vetra Bio · Cambridge</div>
+      <!-- Full-bleed hero image -->
+      <div class="heroImage" aria-hidden="true">
+        <img
+          src="https://images.unsplash.com/photo-1548199973-03cce0bbc87b?auto=format&fit=crop&w=3200&q=90"
+          alt="Dog running"
+          loading="eager"
+        />
+      </div>
 
+      <!-- Readability overlays -->
+      <div class="heroVeil" aria-hidden="true"></div>
+      <div class="heroFade" aria-hidden="true"></div>
+
+      <!-- Text over image -->
+      <div class="heroContent">
+        <div class="heroInner">
           <h1>As we live longer and healthier, so should our beloved companion animals.</h1>
 
           <p class="lead">
@@ -257,18 +272,8 @@
             Built in Cambridge at the intersection of computational modelling, molecular epigenetics and translational science.
           </p>
 
-          <div class="meta">Dogs · Cats · Horses</div>
           <div class="rule" aria-hidden="true"></div>
         </div>
-      </div>
-
-      <!-- ONE hero photo (high-res, full height). Swap this URL for your own brand photo anytime. -->
-      <div class="heroImage" aria-label="Companion animals hero image">
-        <img
-          src="https://images.unsplash.com/photo-1548199973-03cce0bbc87b?auto=format&fit=crop&w=2600&q=90"
-          alt="Companion animals"
-          loading="eager"
-        />
       </div>
     </section>
 
