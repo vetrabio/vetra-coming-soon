@@ -8,16 +8,21 @@
 
   <style>
     :root{
-      --bg0:#070b16;
-      --bg1:#0b1430;
-      --bg2:#0a1c2a;
-      --text:#eef2ff;
-      --muted: rgba(238,242,255,0.72);
-      --faint: rgba(238,242,255,0.55);
+      --bg0:#060812;
+      --bg1:#07142a;
+      --bg2:#07101d;
+
+      --text: rgba(245,247,255,0.96);
+      --muted: rgba(245,247,255,0.70);
+      --faint: rgba(245,247,255,0.56);
       --line: rgba(255,255,255,0.10);
+
       --accent1:#4da3ff;
       --accent2:#6e8bff;
-      --max: 980px;
+
+      /* Wider hero + more editorial */
+      --maxHero: 1180px;
+      --maxBody: 980px;
     }
 
     *{ box-sizing:border-box; }
@@ -27,32 +32,38 @@
       font-family: -apple-system, BlinkMacSystemFont, "Inter", system-ui, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
       color: var(--text);
       background:
-        radial-gradient(1200px 700px at 15% 10%, rgba(77,163,255,0.18), transparent 55%),
-        radial-gradient(1100px 750px at 90% 0%, rgba(110,139,255,0.16), transparent 55%),
-        radial-gradient(900px 700px at 70% 90%, rgba(77,163,255,0.10), transparent 60%),
+        radial-gradient(1100px 700px at 18% 8%, rgba(77,163,255,0.12), transparent 60%),
+        radial-gradient(1100px 700px at 92% 2%, rgba(110,139,255,0.10), transparent 60%),
+        radial-gradient(900px 650px at 70% 88%, rgba(77,163,255,0.07), transparent 65%),
         linear-gradient(180deg, var(--bg0) 0%, var(--bg1) 55%, var(--bg2) 100%);
       overflow-x:hidden;
     }
 
-    /* Subtle grain to feel “premium”, still simple */
+    /* Very subtle grain for “brand” feel */
     .grain{
-      position:fixed; inset:0; z-index:1; pointer-events:none;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='.12'/%3E%3C/svg%3E");
+      position:fixed; inset:0; z-index:2; pointer-events:none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='.10'/%3E%3C/svg%3E");
       mix-blend-mode: overlay;
-      opacity: 0.35;
+      opacity: 0.28;
     }
 
+    /* Keep the background calm (not tech demo) */
     canvas{
       position:fixed; inset:0; z-index:0;
       pointer-events:none;
+      opacity: 0.35;
     }
 
-    .wrap{
+    /* Main layout */
+    main{
       position:relative;
-      z-index:2;
-      max-width: var(--max);
+      z-index:3;
+    }
+
+    .heroWrap{
+      max-width: var(--maxHero);
       margin: 0 auto;
-      padding: 90px 18px 86px;
+      padding: 96px 22px 26px;
     }
 
     .kicker{
@@ -63,7 +74,7 @@
       border: 1px solid rgba(255,255,255,0.14);
       border-radius: 999px;
       background: rgba(255,255,255,0.06);
-      color: rgba(238,242,255,0.85);
+      color: rgba(245,247,255,0.82);
       font-size: 13px;
       letter-spacing: 0.2px;
       user-select:none;
@@ -71,88 +82,116 @@
     .dot{
       width:8px;height:8px;border-radius:999px;
       background: linear-gradient(135deg, var(--accent1), var(--accent2));
-      box-shadow: 0 0 0 4px rgba(77,163,255,0.18);
+      box-shadow: 0 0 0 4px rgba(77,163,255,0.14);
     }
 
+    /* More typographic hero */
     h1{
-      margin: 18px 0 12px;
-      font-size: clamp(34px, 4.7vw, 60px);
-      line-height: 1.03;
-      letter-spacing: -1.2px;
+      margin: 20px 0 14px;
+      font-size: clamp(40px, 5.6vw, 78px);
+      line-height: 0.98;
+      letter-spacing: -1.8px;
       font-weight: 650;
+      text-wrap: balance;
+      max-width: 26ch; /* keeps it editorial while still “wider” */
     }
 
     .lead{
       margin: 0 0 14px;
-      font-size: clamp(16px, 2vw, 20px);
-      line-height: 1.7;
+      font-size: clamp(16px, 2.05vw, 21px);
+      line-height: 1.72;
       color: var(--muted);
-      max-width: 72ch;
+      max-width: 84ch; /* wider body copy */
     }
 
     .divider{
-      margin: 36px 0 28px;
+      margin: 34px 0 0;
       height: 1px;
-      background: linear-gradient(90deg, rgba(77,163,255,0.0), rgba(77,163,255,0.55), rgba(110,139,255,0.0));
+      background: linear-gradient(
+        90deg,
+        rgba(77,163,255,0.0),
+        rgba(77,163,255,0.55),
+        rgba(110,139,255,0.0)
+      );
     }
 
-    .flowSection{
-      padding: 26px 0;
+    /* Full-width image band with fade */
+    .band{
+      position: relative;
+      margin-top: 34px;
+      width: 100%;
+      height: clamp(240px, 34vw, 420px);
+      overflow: hidden;
+    }
+
+    .band::before{
+      content:"";
+      position:absolute;
+      inset:-1px;
+      background:
+        linear-gradient(180deg, rgba(6,8,18,0.95) 0%, rgba(6,8,18,0.20) 22%, rgba(6,8,18,0.08) 55%, rgba(6,8,18,0.92) 100%),
+        radial-gradient(900px 500px at 50% 20%, rgba(77,163,255,0.08), transparent 60%);
+      z-index:2;
+      pointer-events:none;
+    }
+
+    .bandImg{
+      position:absolute;
+      inset:0;
+      background:
+        url("https://images.unsplash.com/photo-1548199973-03cce0bbc87b?auto=format&fit=crop&w=2400&q=80")
+        center / cover no-repeat;
+      filter: saturate(0.95) contrast(1.02);
+      transform: scale(1.02);
+    }
+
+    /* Fade edges into background (works in modern browsers) */
+    .band{
+      -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 12%, #000 88%, transparent 100%);
+              mask-image: linear-gradient(180deg, transparent 0%, #000 12%, #000 88%, transparent 100%);
+    }
+
+    .bandCaption{
+      position:absolute;
+      left: 0; right:0;
+      bottom: 18px;
+      z-index:3;
+      padding: 0 22px;
+    }
+    .bandCaptionInner{
+      max-width: var(--maxHero);
+      margin: 0 auto;
+      color: rgba(245,247,255,0.86);
+      font-size: 13px;
+      letter-spacing: 0.3px;
+    }
+
+    /* Contact block (continuous, not boxed) */
+    .bodyWrap{
+      max-width: var(--maxBody);
+      margin: 0 auto;
+      padding: 28px 22px 78px;
     }
 
     h2{
-      margin:0 0 10px;
+      margin: 32px 0 10px;
       font-size: 18px;
       font-weight: 650;
       letter-spacing: -0.2px;
-      color: rgba(238,242,255,0.92);
+      color: rgba(245,247,255,0.92);
     }
 
     .copy{
       margin: 0 0 10px;
       color: var(--faint);
-      line-height: 1.75;
+      line-height: 1.78;
       font-size: 15.5px;
-      max-width: 78ch;
-    }
-
-    .threeCol{
-      margin-top: 18px;
-      display:grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 16px;
-      align-items:start;
-    }
-
-    .miniTitle{
-      font-size: 13px;
-      letter-spacing: 0.5px;
-      text-transform: uppercase;
-      color: rgba(238,242,255,0.62);
-      margin: 0 0 8px;
-    }
-
-    .miniText{
-      margin:0;
-      color: rgba(238,242,255,0.70);
-      line-height: 1.7;
-      font-size: 14.8px;
-    }
-
-    .softRule{
-      margin: 32px 0;
-      height: 1px;
-      background: rgba(255,255,255,0.10);
-    }
-
-    /* Contact */
-    .contact{
-      padding-top: 10px;
+      max-width: 84ch;
     }
 
     form{
-      margin-top: 10px;
-      max-width: 520px;
+      margin-top: 12px;
+      max-width: 560px;
     }
 
     input, textarea{
@@ -162,12 +201,12 @@
       border-radius: 12px;
       border: 1px solid rgba(255,255,255,0.16);
       background: rgba(255,255,255,0.06);
-      color: rgba(238,242,255,0.92);
+      color: rgba(245,247,255,0.92);
       font-size: 15px;
       outline:none;
     }
     input::placeholder, textarea::placeholder{
-      color: rgba(238,242,255,0.55);
+      color: rgba(245,247,255,0.55);
     }
     input:focus, textarea:focus{
       border-color: rgba(77,163,255,0.55);
@@ -190,7 +229,7 @@
     .fineprint{
       margin-top: 10px;
       font-size: 12.5px;
-      color: rgba(238,242,255,0.58);
+      color: rgba(245,247,255,0.56);
       line-height: 1.6;
     }
 
@@ -202,14 +241,14 @@
       justify-content:space-between;
       gap: 12px;
       flex-wrap:wrap;
-      color: rgba(238,242,255,0.60);
+      color: rgba(245,247,255,0.58);
       font-size: 13px;
     }
 
     /* Responsive */
     @media (max-width: 860px){
-      .wrap{ padding-top: 72px; }
-      .threeCol{ grid-template-columns: 1fr; }
+      .heroWrap{ padding-top: 76px; }
+      h1{ letter-spacing: -1.2px; max-width: 30ch; }
     }
 
     /* Reduced motion */
@@ -223,48 +262,32 @@
   <canvas id="bg" aria-hidden="true"></canvas>
   <div class="grain" aria-hidden="true"></div>
 
-  <main class="wrap">
-    <div class="kicker"><span class="dot"></span> Vetra Bio · Cambridge</div>
+  <main>
+    <section class="heroWrap">
+      <div class="kicker"><span class="dot"></span> Vetra Bio · Cambridge</div>
 
-    <h1>As we live longer and healthier, so should our beloved companion animals.</h1>
+      <h1>As we live longer and healthier, so should our beloved companion animals.</h1>
 
-    <p class="lead">
-      Ageing is not just time. It's states. We’re building AI-driven biology to understand how animals age —
-      and how those trajectories can shift.
-    </p>
-
-    <p class="lead" style="margin-bottom:0;">
-      Built in Cambridge at the intersection of computational modelling, molecular epigenetics and translational science.
-    </p>
-
-    <div class="divider"></div>
-
-    <section class="flowSection" aria-label="Focus">
-      <h2>What we’re doing now</h2>
-      <p class="copy">
-        We’re opening early collaborations and strategic partnerships across dogs, cats, and horses —
-        starting with predictive modelling and validation-ready biology.
+      <p class="lead">
+        Ageing is not just time. It's states. We’re building AI-driven biology to understand how animals age —
+        and how those trajectories can shift.
       </p>
 
-      <div class="threeCol">
-        <div>
-          <div class="miniTitle">Cohorts + data</div>
-          <p class="miniText">Partnering with groups who already have longitudinal samples, records, or real-world outcomes.</p>
-        </div>
-        <div>
-          <div class="miniTitle">State readouts</div>
-          <p class="miniText">Building measurement strategies that are robust, scalable, and clinically meaningful.</p>
-        </div>
-        <div>
-          <div class="miniTitle">Models</div>
-          <p class="miniText">Developing interpretable predictors of ageing trajectories to guide the next generation of studies.</p>
-        </div>
+      <p class="lead" style="margin-bottom:0;">
+        Built in Cambridge at the intersection of computational modelling, molecular epigenetics and translational science.
+      </p>
+
+      <div class="divider"></div>
+    </section>
+
+    <section class="band" aria-label="Companion animals image band">
+      <div class="bandImg" aria-hidden="true"></div>
+      <div class="bandCaption">
+        <div class="bandCaptionInner">Dogs · Cats · Horses</div>
       </div>
     </section>
 
-    <div class="softRule"></div>
-
-    <section class="flowSection contact" aria-label="Contact">
+    <section class="bodyWrap" aria-label="Contact">
       <h2>Reach out</h2>
       <p class="copy">
         If you work with companion animal cohorts, veterinary networks, diagnostics, or translational biology —
@@ -281,18 +304,18 @@
       <div class="fineprint">
         We’ll only use your details to respond to your enquiry.
       </div>
-    </section>
 
-    <footer>
-      <div>© <span id="year"></span> Vetra Bio Ltd</div>
-      <div>Dogs · Cats · Horses</div>
-    </footer>
+      <footer>
+        <div>© <span id="year"></span> Vetra Bio Ltd</div>
+        <div>Cambridge, UK</div>
+      </footer>
+    </section>
   </main>
 
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    // Particle background (subtle, continuous)
+    // Brand-forward ambient background (subtle, not “tech demo”)
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const canvas = document.getElementById('bg');
     const ctx = canvas.getContext('2d', { alpha: true });
@@ -312,14 +335,15 @@
       const W = () => window.innerWidth;
       const H = () => window.innerHeight;
 
-      const COUNT = Math.max(58, Math.min(92, Math.floor((W() * H()) / 24000)));
-      const LINK = 140;
+      // fewer, slower, dimmer
+      const COUNT = Math.max(22, Math.min(40, Math.floor((W() * H()) / 65000)));
+      const LINK = 170;
 
       const pts = Array.from({length: COUNT}, () => ({
         x: Math.random() * W(),
         y: Math.random() * H(),
-        vx: (Math.random() - 0.5) * 0.35,
-        vy: (Math.random() - 0.5) * 0.35
+        vx: (Math.random() - 0.5) * 0.12,
+        vy: (Math.random() - 0.5) * 0.12
       }));
 
       function draw(){
@@ -332,12 +356,12 @@
           if (p.y < 0 || p.y > H()) p.vy *= -1;
 
           ctx.beginPath();
-          ctx.arc(p.x, p.y, 1.8, 0, Math.PI*2);
-          ctx.fillStyle = "rgba(77,163,255,0.28)";
+          ctx.arc(p.x, p.y, 1.6, 0, Math.PI*2);
+          ctx.fillStyle = "rgba(160,190,255,0.10)";
           ctx.fill();
         }
 
-        // lines
+        // links (very faint)
         for (let i=0;i<pts.length;i++){
           for (let j=i+1;j<pts.length;j++){
             const dx = pts[i].x - pts[j].x;
@@ -347,7 +371,7 @@
               ctx.beginPath();
               ctx.moveTo(pts[i].x, pts[i].y);
               ctx.lineTo(pts[j].x, pts[j].y);
-              ctx.strokeStyle = `rgba(110,139,255,${(1 - d/LINK) * 0.10})`;
+              ctx.strokeStyle = `rgba(160,190,255,${(1 - d/LINK) * 0.04})`;
               ctx.stroke();
             }
           }
