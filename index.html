@@ -981,7 +981,33 @@
         padding: 24px;
       }
     }
-  </style>
+  
+    .founder-links{
+      display:flex;
+      flex-wrap:wrap;
+      gap:12px;
+      align-items:center;
+      margin-top:30px;
+    }
+    .founder-link{
+      display:inline-flex;
+      align-items:center;
+      padding:0 18px;
+      min-height:50px;
+      border:1px solid var(--line);
+      border-radius:999px;
+      background:#fff;
+      color:var(--text);
+      font-weight:600;
+      transition:all .2s ease;
+    }
+    .founder-link:hover{
+      border-color:var(--accent);
+      color:var(--accent);
+      transform:translateY(-2px);
+    }
+
+</style>
 </head>
 
 <body>
@@ -1442,13 +1468,24 @@
             We welcome conversations with investors, veterinary partners,
             researchers and prospective hires.
           </p>
-          <div class="button-row" style="margin-top: 30px;">
+          <div class="founder-links">
             <a class="button primary" href="mailto:team@vetrabio.com">
               Get in touch
               <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
                 <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
             </a>
+
+            <a class="founder-link" target="_blank" rel="noopener noreferrer"
+               href="https://www.linkedin.com/in/chet-h-loh-6b8a6098">
+               Chet H Loh, PhD
+            </a>
+
+            <a class="founder-link" target="_blank" rel="noopener noreferrer"
+               href="https://www.linkedin.com/in/archana-archi-bajpai-50bb2911/">
+               Archana Bajpai, PhD
+            </a>
+
           </div>
         </div>
       </div>
