@@ -154,14 +154,24 @@
       gap: 24px;
     }
 
-    .brand {
-      display: inline-flex;
-      align-items: center;
-      gap: 12px;
-      font-size: 1.02rem;
-      font-weight: 700;
-      letter-spacing: 0.02em;
-    }
+    .brand{
+display:flex;
+align-items:center;
+}
+.header-logo{
+height:56px;
+width:auto;
+display:block;
+transition:.25s ease;
+}
+.header-logo:hover{
+transform:scale(1.03);
+opacity:.92;
+}
+@media (max-width:760px){
+.header-logo{height:42px;}
+}
+.brand-mark,.brand-mark::before,.brand-mark::after{display:none!important;}
 
     .brand-mark {
       width: 35px;
@@ -966,8 +976,7 @@
   <header class="nav" id="nav">
     <div class="container nav-inner">
       <a class="brand" href="#top" aria-label="Vetra Bio home">
-        <span class="brand-mark" aria-hidden="true"></span>
-        <span>Vetra Bio</span>
+        <img src="vetrabio-logo-transparent.png" class="header-logo" alt="Vetra Bio">
       </a>
 
       <button class="menu-button" id="menuButton" aria-label="Open navigation" aria-expanded="false">
