@@ -1,304 +1,1461 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <title>Vetra Bio</title>
+  <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Vetra Bio builds AI-driven biology to understand how companion animals age and how those trajectories can shift." />
+  <meta name="description" content="Vetra Bio develops epigenetic intelligence for proactive animal health." />
+  <meta name="theme-color" content="#071411" />
+  <title>Vetra Bio | Predicting health before disease</title>
 
   <style>
-    :root{
-      --bg:#ffffff;
-      --text:#0b1220;
-      --muted: rgba(11,18,32,0.72);
-      --faint: rgba(11,18,32,0.56);
-
-      --heroX: 100%;
-      --heroY: 50%;
-
-      --maxText: 820px;
-      --maxContact: 980px;
+    :root {
+      --bg: #071411;
+      --bg-soft: #0b1b17;
+      --panel: rgba(255, 255, 255, 0.045);
+      --panel-strong: rgba(255, 255, 255, 0.075);
+      --line: rgba(255, 255, 255, 0.11);
+      --text: #f4f5ef;
+      --muted: #aab8b1;
+      --accent: #a7e35f;
+      --accent-soft: rgba(167, 227, 95, 0.14);
+      --cyan: #78d8c7;
+      --max: 1180px;
+      --radius: 24px;
+      --shadow: 0 24px 80px rgba(0, 0, 0, 0.28);
     }
 
-    *{ box-sizing:border-box; }
-    html,body{ height:100%; }
-    body{
-      margin:0;
-      font-family: -apple-system, BlinkMacSystemFont, "Inter", system-ui, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
-      color: var(--text);
-      background: var(--bg);
-      overflow-x:hidden;
+    * {
+      box-sizing: border-box;
     }
 
-    .bgwash{
-      position: fixed;
-      inset: 0;
-      z-index: 0;
-      pointer-events: none;
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
       background:
-        radial-gradient(900px 520px at 18% 10%, rgba(77,163,255,0.10), transparent 60%),
-        radial-gradient(900px 520px at 92% 12%, rgba(110,139,255,0.08), transparent 60%);
+        radial-gradient(circle at 80% 8%, rgba(120, 216, 199, 0.08), transparent 32%),
+        radial-gradient(circle at 10% 24%, rgba(167, 227, 95, 0.05), transparent 28%),
+        var(--bg);
+      color: var(--text);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.6;
+      overflow-x: hidden;
     }
 
-    main{ position: relative; z-index: 1; }
-
-    /* HERO */
-    .hero{
-      position: relative;
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      overflow: hidden;
-      background-color: #fff;
-
-      background-image: url(https://images.unsplash.com/photo-1548199973-03cce0bbc87b?auto=format&fit=crop&w=3200&q=90);
-      background-size: cover;
-      background-repeat: no-repeat;
-      background-position: var(--heroX) var(--heroY);
+    a {
+      color: inherit;
+      text-decoration: none;
     }
 
-    .heroVeil{
-      position:absolute;
-      inset:0;
-      z-index:1;
-      pointer-events:none;
-      background: linear-gradient(90deg,
-        rgba(255,255,255,0.96) 0%,
-        rgba(255,255,255,0.92) 30%,
-        rgba(255,255,255,0.50) 48%,
-        rgba(255,255,255,0.14) 58%,
-        rgba(255,255,255,0.00) 66%
-      );
+    img, svg {
+      display: block;
+      max-width: 100%;
     }
 
-    .heroFade{
-      position:absolute;
-      inset:0;
-      z-index:1;
-      pointer-events:none;
-      background: linear-gradient(180deg,
-        rgba(255,255,255,0.78) 0%,
-        rgba(255,255,255,0.00) 22%,
-        rgba(255,255,255,0.00) 78%,
-        rgba(255,255,255,0.92) 100%
-      );
-      opacity: 0.55;
+    button, input, textarea {
+      font: inherit;
     }
 
-    .heroContent{
-      position: relative;
-      z-index:2;
-      width: 100%;
-      padding: 96px 22px 76px;
-    }
-
-    .heroInner{
-      max-width: var(--maxText);
-      margin-left: 18px;
-      margin-right: 22px;
-    }
-
-    h1{
-      margin: 0 0 16px;
-      font-size: clamp(52px, 5.6vw, 98px);
-      line-height: 0.96;
-      letter-spacing: -2.2px;
-      font-weight: 650;
-      text-wrap: balance;
-      max-width: 24ch;
-    }
-
-    .lead{
-      margin: 0 0 16px;
-      font-size: clamp(18px, 2.1vw, 24px);
-      line-height: 1.68;
-      color: var(--muted);
-      max-width: 92ch;
-    }
-
-    .rule{
-      margin-top: 28px;
-      height: 1px;
-      width: min(560px, 100%);
-      background: linear-gradient(90deg, rgba(11,18,32,0.0), rgba(11,18,32,0.14), rgba(11,18,32,0.0));
-    }
-
-    /* 13" laptop refinement */
-    @media (min-width: 981px) and (max-width: 1399px){
-      .heroContent{
-        padding-left: 12px;
-        padding-right: 18px;
-      }
-
-      .heroInner{
-        margin-left: 0;
-        margin-right: 0;
-        max-width: 640px;
-      }
-
-      :root{
-        --heroX: 112%;
-        --heroY: 50%;
-      }
-
-      .hero{
-        background-size: 112% auto;
-      }
-
-      .heroVeil{
-        background: linear-gradient(90deg,
-          rgba(255,255,255,0.96) 0%,
-          rgba(255,255,255,0.92) 18%,
-          rgba(255,255,255,0.55) 28%,
-          rgba(255,255,255,0.18) 38%,
-          rgba(255,255,255,0.00) 46%
-        );
-      }
-    }
-
-    @media (min-width: 1400px){
-      :root{ --heroX: 100%; }
-      .heroInner{ margin-left: 100px; }
-      h1{ font-size: clamp(64px, 5.2vw, 112px); }
-      .lead{ font-size: clamp(20px, 1.7vw, 26px); }
-    }
-
-    @media (max-width: 980px){
-      :root{ --heroX: 70%; --heroY: 40%; }
-
-      .heroContent{ padding: 78px 18px 44px; }
-      .heroInner{ margin-left: 0; margin-right: 0; max-width: 820px; }
-
-      .heroVeil{
-        background: linear-gradient(180deg,
-          rgba(255,255,255,0.94) 0%,
-          rgba(255,255,255,0.78) 36%,
-          rgba(255,255,255,0.20) 72%,
-          rgba(255,255,255,0.00) 100%
-        );
-      }
-    }
-
-    /* CONTACT */
-    .contact{
-      padding: 56px 22px 84px;
-    }
-
-    .contactInner{
-      max-width: var(--maxContact);
+    .container {
+      width: min(calc(100% - 40px), var(--max));
       margin: 0 auto;
     }
 
-    h2{
-      margin:0 0 10px;
-      font-size: 18px;
-      font-weight: 650;
-      letter-spacing: -0.2px;
-      color: rgba(11,18,32,0.92);
+    .section {
+      padding: 112px 0;
+      position: relative;
     }
 
-    .copy{
-      margin: 0 0 10px;
-      color: rgba(11,18,32,0.56);
-      line-height: 1.78;
-      font-size: 15.5px;
-      max-width: 90ch;
+    .section.compact {
+      padding: 76px 0;
     }
 
-    form{
-      margin-top: 12px;
-      max-width: 560px;
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 18px;
+      color: var(--accent);
+      font-size: 0.76rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
     }
 
-    input, textarea{
-      width:100%;
-      padding: 13px 14px;
-      margin: 10px 0;
-      border-radius: 12px;
-      border: 1px solid rgba(11,18,32,0.14);
-      background: rgba(255,255,255,0.96);
-      color: rgba(11,18,32,0.92);
-      font-size: 15px;
-      outline:none;
+    .eyebrow::before {
+      content: "";
+      width: 28px;
+      height: 1px;
+      background: currentColor;
+      opacity: 0.8;
     }
 
-    button{
-      margin-top: 6px;
-      padding: 12px 16px;
-      border-radius: 12px;
-      border: 1px solid rgba(11,18,32,0.10);
-      color: #fff;
-      background: linear-gradient(90deg, rgba(77,163,255,0.96), rgba(110,139,255,0.96));
-      font-weight: 650;
-      font-size: 15px;
-      cursor:pointer;
+    h1, h2, h3, p {
+      margin-top: 0;
     }
 
-    footer{
-      margin-top: 40px;
-      padding-top: 18px;
-      border-top: 1px solid rgba(11,18,32,0.10);
-      display:flex;
-      justify-content:space-between;
+    h1 {
+      max-width: 850px;
+      margin-bottom: 26px;
+      font-size: clamp(3.4rem, 8vw, 7.7rem);
+      line-height: 0.93;
+      letter-spacing: -0.065em;
+      font-weight: 560;
+    }
+
+    h2 {
+      max-width: 820px;
+      margin-bottom: 22px;
+      font-size: clamp(2.1rem, 4vw, 4.3rem);
+      line-height: 1.04;
+      letter-spacing: -0.045em;
+      font-weight: 560;
+    }
+
+    h3 {
+      font-size: 1.15rem;
+      line-height: 1.25;
+      letter-spacing: -0.015em;
+      font-weight: 620;
+    }
+
+    .lead {
+      max-width: 760px;
+      color: var(--muted);
+      font-size: clamp(1.05rem, 1.6vw, 1.28rem);
+    }
+
+    .muted {
+      color: var(--muted);
+    }
+
+    .nav {
+      position: fixed;
+      inset: 0 0 auto;
+      z-index: 1000;
+      border-bottom: 1px solid transparent;
+      transition: background 220ms ease, border-color 220ms ease, backdrop-filter 220ms ease;
+    }
+
+    .nav.scrolled {
+      background: rgba(7, 20, 17, 0.78);
+      border-color: var(--line);
+      backdrop-filter: blur(18px);
+    }
+
+    .nav-inner {
+      min-height: 78px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
       gap: 12px;
-      flex-wrap:wrap;
-      color: rgba(11,18,32,0.56);
-      font-size: 13px;
+      font-size: 1.02rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+
+    .brand-mark {
+      width: 35px;
+      aspect-ratio: 1;
+      border: 1px solid rgba(167, 227, 95, 0.55);
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      position: relative;
+      box-shadow: inset 0 0 26px rgba(167, 227, 95, 0.08);
+    }
+
+    .brand-mark::before,
+    .brand-mark::after {
+      content: "";
+      position: absolute;
+      width: 14px;
+      height: 14px;
+      border: 1px solid var(--accent);
+      border-radius: 50%;
+    }
+
+    .brand-mark::before {
+      transform: translate(-4px, -2px);
+    }
+
+    .brand-mark::after {
+      transform: translate(4px, 2px);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      color: #ced8d3;
+      font-size: 0.9rem;
+    }
+
+    .nav-links a {
+      transition: color 180ms ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--accent);
+    }
+
+    .nav-cta {
+      padding: 11px 17px;
+      border: 1px solid rgba(167, 227, 95, 0.48);
+      border-radius: 999px;
+      color: var(--accent);
+      background: rgba(167, 227, 95, 0.05);
+    }
+
+    .menu-button {
+      display: none;
+      width: 42px;
+      height: 42px;
+      border: 1px solid var(--line);
+      border-radius: 50%;
+      background: transparent;
+      color: var(--text);
+      cursor: pointer;
+    }
+
+    .hero {
+      min-height: 100vh;
+      padding: 150px 0 62px;
+      display: grid;
+      align-items: center;
+      position: relative;
+      isolation: isolate;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      align-items: center;
+      gap: 46px;
+    }
+
+    .hero-copy {
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero .lead {
+      max-width: 680px;
+      margin-bottom: 34px;
+    }
+
+    .button-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      min-height: 50px;
+      padding: 0 20px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      font-weight: 650;
+      font-size: 0.93rem;
+      transition: transform 180ms ease, border-color 180ms ease, background 180ms ease;
+    }
+
+    .button:hover {
+      transform: translateY(-2px);
+      border-color: rgba(255, 255, 255, 0.3);
+    }
+
+    .button.primary {
+      color: #10200f;
+      background: var(--accent);
+      border-color: var(--accent);
+    }
+
+    .button.secondary {
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .button svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    .hero-visual {
+      position: relative;
+      min-height: 580px;
+      display: grid;
+      place-items: center;
+    }
+
+    .orb {
+      width: min(520px, 100%);
+      aspect-ratio: 1;
+      border-radius: 50%;
+      position: relative;
+      background:
+        radial-gradient(circle at 50% 48%, rgba(167, 227, 95, 0.09), transparent 34%),
+        radial-gradient(circle at 66% 35%, rgba(120, 216, 199, 0.12), transparent 25%),
+        rgba(255, 255, 255, 0.01);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: var(--shadow), inset 0 0 100px rgba(120, 216, 199, 0.03);
+      overflow: hidden;
+    }
+
+    .orb::before,
+    .orb::after {
+      content: "";
+      position: absolute;
+      inset: 10%;
+      border: 1px solid rgba(167, 227, 95, 0.15);
+      border-radius: 50%;
+      animation: rotate 24s linear infinite;
+    }
+
+    .orb::after {
+      inset: 22%;
+      border-color: rgba(120, 216, 199, 0.17);
+      animation-direction: reverse;
+      animation-duration: 17s;
+    }
+
+    .trajectory-svg {
+      position: absolute;
+      inset: 8%;
+      width: 84%;
+      height: 84%;
+      overflow: visible;
+    }
+
+    .node {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      background: var(--accent);
+      border-radius: 50%;
+      box-shadow: 0 0 18px var(--accent);
+      animation: pulse 3s ease-in-out infinite;
+    }
+
+    .node:nth-child(2) { left: 21%; top: 34%; animation-delay: .4s; }
+    .node:nth-child(3) { left: 38%; top: 23%; animation-delay: 1s; }
+    .node:nth-child(4) { left: 55%; top: 48%; animation-delay: 1.5s; }
+    .node:nth-child(5) { left: 72%; top: 29%; animation-delay: 2s; }
+    .node:nth-child(6) { left: 64%; top: 69%; animation-delay: .7s; }
+
+    .hero-bottom {
+      margin-top: 72px;
+      padding-top: 26px;
+      border-top: 1px solid var(--line);
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+
+    .trust-item {
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+
+    .trust-item strong {
+      display: block;
+      margin-bottom: 5px;
+      color: var(--text);
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+
+    .split {
+      display: grid;
+      grid-template-columns: 0.95fr 1.05fr;
+      gap: 80px;
+      align-items: start;
+    }
+
+    .grid-2,
+    .grid-3,
+    .grid-4 {
+      display: grid;
+      gap: 18px;
+    }
+
+    .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .grid-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+
+    .card {
+      min-height: 100%;
+      padding: 28px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background:
+        linear-gradient(145deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.018));
+      box-shadow: 0 18px 60px rgba(0, 0, 0, 0.12);
+      transition: transform 220ms ease, border-color 220ms ease, background 220ms ease;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(167, 227, 95, 0.28);
+      background:
+        linear-gradient(145deg, rgba(255, 255, 255, 0.072), rgba(255, 255, 255, 0.022));
+    }
+
+    .card p:last-child {
+      margin-bottom: 0;
+    }
+
+    .card-number {
+      display: inline-flex;
+      width: 38px;
+      height: 38px;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 38px;
+      border: 1px solid rgba(167, 227, 95, 0.35);
+      border-radius: 50%;
+      color: var(--accent);
+      font-size: 0.76rem;
+      font-weight: 700;
+    }
+
+    .comparison {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      overflow: hidden;
+      background: rgba(255, 255, 255, 0.025);
+    }
+
+    .comparison-column {
+      padding: 38px;
+    }
+
+    .comparison-column + .comparison-column {
+      border-left: 1px solid var(--line);
+      background:
+        radial-gradient(circle at 80% 10%, rgba(167, 227, 95, 0.07), transparent 36%),
+        rgba(167, 227, 95, 0.025);
+    }
+
+    .comparison ul {
+      margin: 26px 0 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .comparison li {
+      padding: 15px 0;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+    }
+
+    .comparison li::before {
+      content: "•";
+      margin-right: 10px;
+      color: var(--accent);
+    }
+
+    .output-icon {
+      width: 44px;
+      height: 44px;
+      margin-bottom: 44px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      color: var(--accent);
+      background: var(--accent-soft);
+      border: 1px solid rgba(167, 227, 95, 0.17);
+    }
+
+    .output-icon svg {
+      width: 21px;
+      height: 21px;
+    }
+
+    .layers {
+      position: relative;
+    }
+
+    .layer-row {
+      display: grid;
+      grid-template-columns: 80px 1fr 1.2fr;
+      align-items: center;
+      gap: 30px;
+      padding: 32px 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .layer-row:last-child {
+      border-bottom: 1px solid var(--line);
+    }
+
+    .layer-index {
+      color: var(--accent);
+      font-size: 0.78rem;
+      letter-spacing: 0.15em;
+    }
+
+    .layer-row h3 {
+      margin: 0;
+      font-size: clamp(1.35rem, 2vw, 2rem);
+    }
+
+    .layer-row p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .steps {
+      counter-reset: step;
+    }
+
+    .step {
+      position: relative;
+      padding: 30px 28px 34px;
+      min-height: 290px;
+      border-top: 1px solid var(--line);
+    }
+
+    .step::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 1px;
+      height: 100%;
+      background: var(--line);
+    }
+
+    .step:last-child::after {
+      display: none;
+    }
+
+    .step-number {
+      color: var(--accent);
+      font-size: 0.77rem;
+      letter-spacing: 0.14em;
+    }
+
+    .step h3 {
+      margin-top: 92px;
+    }
+
+    .species-card {
+      min-height: 260px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .species-card::after {
+      content: "";
+      position: absolute;
+      width: 120px;
+      height: 120px;
+      right: -26px;
+      bottom: -28px;
+      border: 1px solid rgba(167, 227, 95, 0.13);
+      border-radius: 50%;
+      box-shadow:
+        0 0 0 22px rgba(167, 227, 95, 0.025),
+        0 0 0 46px rgba(167, 227, 95, 0.012);
+    }
+
+    .science-feature {
+      padding: 42px;
+      border: 1px solid var(--line);
+      border-radius: 30px;
+      background:
+        radial-gradient(circle at 90% 0%, rgba(120, 216, 199, 0.08), transparent 36%),
+        rgba(255, 255, 255, 0.025);
+    }
+
+    .science-list {
+      display: grid;
+      gap: 0;
+      margin-top: 38px;
+    }
+
+    .science-item {
+      display: grid;
+      grid-template-columns: 48px 1fr;
+      gap: 22px;
+      padding: 28px 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .science-item span {
+      color: var(--accent);
+      font-size: 0.78rem;
+    }
+
+    .science-item h3 {
+      margin-bottom: 8px;
+    }
+
+    .science-item p {
+      margin-bottom: 0;
+      color: var(--muted);
+    }
+
+    .roadmap {
+      position: relative;
+    }
+
+    .roadmap::before {
+      content: "";
+      position: absolute;
+      top: 29px;
+      left: 22px;
+      right: 22px;
+      height: 1px;
+      background: var(--line);
+    }
+
+    .roadmap-step {
+      position: relative;
+      padding-top: 68px;
+    }
+
+    .roadmap-dot {
+      position: absolute;
+      top: 21px;
+      left: 0;
+      width: 17px;
+      height: 17px;
+      border-radius: 50%;
+      background: var(--bg);
+      border: 4px solid var(--accent);
+      box-shadow: 0 0 0 7px rgba(167, 227, 95, 0.08);
+    }
+
+    .roadmap-step small {
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+
+    .roadmap-step h3 {
+      margin-top: 16px;
+      margin-bottom: 10px;
+    }
+
+    .stat {
+      padding: 32px 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .stat-value {
+      margin-bottom: 10px;
+      font-size: clamp(2.2rem, 4vw, 4rem);
+      line-height: 1;
+      letter-spacing: -0.05em;
+    }
+
+    .stat-label {
+      color: var(--muted);
+    }
+
+    .team-note {
+      padding: 44px;
+      border: 1px solid var(--line);
+      border-radius: 30px;
+      background: rgba(255, 255, 255, 0.026);
+    }
+
+    .cta {
+      padding: 70px;
+      border: 1px solid rgba(167, 227, 95, 0.18);
+      border-radius: 34px;
+      background:
+        radial-gradient(circle at 85% 15%, rgba(167, 227, 95, 0.12), transparent 30%),
+        radial-gradient(circle at 5% 100%, rgba(120, 216, 199, 0.08), transparent 35%),
+        rgba(255, 255, 255, 0.03);
+      box-shadow: var(--shadow);
+    }
+
+    .cta h2 {
+      max-width: 800px;
+    }
+
+    footer {
+      padding: 56px 0 34px;
+      border-top: 1px solid var(--line);
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.7fr 0.7fr 0.7fr;
+      gap: 50px;
+    }
+
+    .footer-title {
+      margin-bottom: 16px;
+      font-weight: 650;
+    }
+
+    .footer-links {
+      display: grid;
+      gap: 8px;
+      color: var(--muted);
+    }
+
+    .footer-links a:hover {
+      color: var(--accent);
+    }
+
+    .disclaimer {
+      margin-top: 44px;
+      padding-top: 25px;
+      border-top: 1px solid var(--line);
+      color: #85958d;
+      font-size: 0.8rem;
+    }
+
+    .copyright {
+      margin-top: 18px;
+      color: #718078;
+      font-size: 0.78rem;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 700ms ease, transform 700ms ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @keyframes rotate {
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(0.8); opacity: 0.5; }
+      50% { transform: scale(1.25); opacity: 1; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+      .reveal {
+        opacity: 1;
+        transform: none;
+      }
+    }
+
+    @media (max-width: 980px) {
+      .hero-grid,
+      .split {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-visual {
+        min-height: 460px;
+      }
+
+      .grid-4 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .grid-3 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .roadmap::before {
+        display: none;
+      }
+
+      .roadmap-step {
+        padding: 28px 0 28px 42px;
+        border-top: 1px solid var(--line);
+      }
+
+      .roadmap-dot {
+        top: 31px;
+      }
+
+      .footer-grid {
+        grid-template-columns: 1.4fr 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .section {
+        padding: 82px 0;
+      }
+
+      .nav-inner {
+        min-height: 68px;
+      }
+
+      .menu-button {
+        display: grid;
+        place-items: center;
+      }
+
+      .nav-links {
+        position: fixed;
+        top: 69px;
+        left: 20px;
+        right: 20px;
+        padding: 24px;
+        display: none;
+        flex-direction: column;
+        align-items: flex-start;
+        border: 1px solid var(--line);
+        border-radius: 20px;
+        background: rgba(7, 20, 17, 0.96);
+        box-shadow: var(--shadow);
+        backdrop-filter: blur(16px);
+      }
+
+      .nav-links.open {
+        display: flex;
+      }
+
+      .hero {
+        padding-top: 112px;
+      }
+
+      .hero-bottom {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .hero-visual {
+        min-height: 380px;
+      }
+
+      .grid-2,
+      .grid-3,
+      .grid-4,
+      .comparison {
+        grid-template-columns: 1fr;
+      }
+
+      .comparison-column + .comparison-column {
+        border-left: 0;
+        border-top: 1px solid var(--line);
+      }
+
+      .layer-row {
+        grid-template-columns: 48px 1fr;
+        gap: 18px;
+      }
+
+      .layer-row p {
+        grid-column: 2;
+      }
+
+      .steps {
+        grid-template-columns: 1fr;
+      }
+
+      .step {
+        min-height: auto;
+      }
+
+      .step::after {
+        display: none;
+      }
+
+      .step h3 {
+        margin-top: 42px;
+      }
+
+      .cta {
+        padding: 40px 28px;
+      }
+
+      .footer-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        width: min(calc(100% - 28px), var(--max));
+      }
+
+      h1 {
+        font-size: clamp(3rem, 16vw, 4.5rem);
+      }
+
+      .hero-bottom {
+        grid-template-columns: 1fr;
+      }
+
+      .button-row {
+        flex-direction: column;
+      }
+
+      .button {
+        width: 100%;
+      }
+
+      .card,
+      .science-feature,
+      .team-note {
+        padding: 24px;
+      }
     }
   </style>
 </head>
 
 <body>
-  <div class="bgwash" aria-hidden="true"></div>
+  <header class="nav" id="nav">
+    <div class="container nav-inner">
+      <a class="brand" href="#top" aria-label="Vetra Bio home">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <span>Vetra Bio</span>
+      </a>
 
-  <main>
-    <section class="hero" aria-label="Vetra Bio hero">
-      <div class="heroVeil" aria-hidden="true"></div>
-      <div class="heroFade" aria-hidden="true"></div>
+      <button class="menu-button" id="menuButton" aria-label="Open navigation" aria-expanded="false">
+        <span>☰</span>
+      </button>
 
-      <div class="heroContent">
-        <div class="heroInner">
-          <h1>As We Live Longer and Healthier, So Should Our Companion Animals.</h1>
+      <nav class="nav-links" id="navLinks" aria-label="Primary navigation">
+        <a href="#technology">Technology</a>
+        <a href="#applications">Applications</a>
+        <a href="#science">Science</a>
+        <a href="#progress">Progress</a>
+        <a class="nav-cta" href="mailto:team@vetrabio.com">Contact</a>
+      </nav>
+    </div>
+  </header>
 
-          <p class="lead">
-            Ageing is not defined by years, but by biological states.
-            At Vetra Bio, we use AI/ML to decode evolutionarily conserved ageing trajectories and understand how they can be shifted toward longer, healthier lives.
-          </p>
+  <main id="top">
+    <section class="hero">
+      <div class="container">
+        <div class="hero-grid">
+          <div class="hero-copy reveal">
+            <div class="eyebrow">Epigenetic intelligence · Animal health</div>
+            <h1>Predicting health before disease.</h1>
+            <p class="lead">
+              Vetra Bio combines epigenetic biology, longitudinal data and machine learning
+              to reveal how animal health changes over time, supporting earlier and better-informed decisions.
+            </p>
+            <div class="button-row">
+              <a class="button primary" href="#technology">
+                Explore the platform
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </a>
+              <a class="button secondary" href="mailto:team@vetrabio.com">Contact us</a>
+            </div>
+          </div>
 
-          <p class="lead" style="margin-bottom:0;">
-            Built in Cambridge at the intersection of computational modelling, molecular epigenetics and translational science.
-          </p>
+          <div class="hero-visual reveal" aria-label="Abstract biological trajectory visualisation">
+            <div class="orb">
+              <svg class="trajectory-svg" viewBox="0 0 500 500" fill="none" aria-hidden="true">
+                <defs>
+                  <linearGradient id="curveGradient" x1="80" y1="390" x2="430" y2="100" gradientUnits="userSpaceOnUse">
+                    <stop stop-color="#78D8C7" stop-opacity=".35"/>
+                    <stop offset=".55" stop-color="#A7E35F"/>
+                    <stop offset="1" stop-color="#F4F5EF" stop-opacity=".65"/>
+                  </linearGradient>
+                  <filter id="glow">
+                    <feGaussianBlur stdDeviation="4" result="blur"/>
+                    <feMerge>
+                      <feMergeNode in="blur"/>
+                      <feMergeNode in="SourceGraphic"/>
+                    </feMerge>
+                  </filter>
+                </defs>
 
-          <div class="rule" aria-hidden="true"></div>
+                <g opacity=".22">
+                  <circle cx="250" cy="250" r="190" stroke="#F4F5EF"/>
+                  <circle cx="250" cy="250" r="130" stroke="#78D8C7"/>
+                  <path d="M60 250H440M250 60V440" stroke="#F4F5EF" stroke-dasharray="4 10"/>
+                  <path d="M96 126C164 184 177 297 234 327C298 361 329 223 404 160" stroke="#78D8C7"/>
+                  <path d="M96 370C160 317 189 239 256 225C320 212 353 278 418 116" stroke="#A7E35F"/>
+                </g>
+
+                <path d="M72 386C129 343 157 278 205 263C259 246 277 318 332 269C376 230 388 157 430 110"
+                      stroke="url(#curveGradient)" stroke-width="4.2" stroke-linecap="round" filter="url(#glow)"/>
+
+                <path d="M72 408C126 390 158 369 204 355C277 333 314 364 352 333C384 307 402 256 430 239"
+                      stroke="#78D8C7" stroke-opacity=".38" stroke-width="2.2" stroke-linecap="round" stroke-dasharray="7 10"/>
+
+                <g fill="#A7E35F" filter="url(#glow)">
+                  <circle cx="73" cy="386" r="5"/>
+                  <circle cx="205" cy="263" r="5"/>
+                  <circle cx="332" cy="269" r="5"/>
+                  <circle cx="430" cy="110" r="5"/>
+                </g>
+              </svg>
+              <span class="node"></span>
+              <span class="node"></span>
+              <span class="node"></span>
+              <span class="node"></span>
+              <span class="node"></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-bottom reveal">
+          <div class="trust-item"><strong>Built in Cambridge</strong>Scientific company formation</div>
+          <div class="trust-item"><strong>Veterinary collaboration</strong>Designed with domain expertise</div>
+          <div class="trust-item"><strong>Research partnerships</strong>Cross-species data development</div>
+          <div class="trust-item"><strong>Industry engagement</strong>Focused on real-world utility</div>
         </div>
       </div>
     </section>
 
-    <section class="contact" id="contact" aria-label="Contact">
-      <div class="contactInner">
-        <h2>Reach out</h2>
-        <p class="copy">
-          If you’re involved in companion animal cohorts, veterinary networks, diagnostics, translational biology or are simply curious about what we’re building — we’d love to connect.
-        </p>
+    <section class="section compact">
+      <div class="container split">
+        <div class="reveal">
+          <div class="eyebrow">The problem</div>
+          <h2>Disease is often identified after biology has already shifted.</h2>
+        </div>
+        <div class="reveal">
+          <p class="lead">
+            Conventional veterinary care typically detects chronic conditions once meaningful biological change has occurred.
+            Earlier, more continuous insight could help shift care from reactive to proactive.
+          </p>
+        </div>
+      </div>
+    </section>
 
-        <form action="https://formspree.io/f/xvzbjlnd" method="POST">
-          <input type="email" name="email" placeholder="Your email" required />
-          <textarea name="message" rows="5" placeholder="Message (optional)"></textarea>
-          <button type="submit">Send</button>
-        </form>
+    <section class="section" id="technology">
+      <div class="container">
+        <div class="reveal">
+          <div class="eyebrow">Technology</div>
+          <h2>Epigenetic biology, longitudinal data and modelling, together.</h2>
+          <p class="lead">
+            Our platform is under development to translate molecular signals into interpretable,
+            longitudinal insight about biological state.
+          </p>
+        </div>
 
-        <div class="fineprint">We’ll only use your details to respond to your enquiry.</div>
+        <div class="comparison reveal" style="margin-top: 50px;">
+          <div class="comparison-column">
+            <h3>Point-in-time testing</h3>
+            <ul>
+              <li>One reading, one moment</li>
+              <li>Compares to reference ranges</li>
+              <li>Often detects change after it matters</li>
+            </ul>
+          </div>
+          <div class="comparison-column">
+            <h3>Longitudinal trajectory insight</h3>
+            <ul>
+              <li>Repeated readings across time</li>
+              <li>Compares each animal to itself</li>
+              <li>Designed to surface change earlier</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
 
-        <footer>
-          <div>© <span id="year"></span> Vetra Bio Ltd</div>
-          <div>Cambridge, UK</div>
-        </footer>
+    <section class="section">
+      <div class="container">
+        <div class="reveal">
+          <div class="eyebrow">Platform outputs</div>
+          <h2>Four outputs designed for proactive care.</h2>
+          <p class="lead">
+            Our platform is under development to translate epigenetic signals into interpretable,
+            decision-ready insight.
+          </p>
+        </div>
+
+        <div class="grid-4" style="margin-top: 48px;">
+          <article class="card reveal">
+            <div class="output-icon">
+              <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="currentColor"/><path d="M8 12h8M12 8v8" stroke="currentColor"/></svg>
+            </div>
+            <h3>Biological health signals</h3>
+            <p class="muted">Multi-layered epigenetic readouts designed to reflect underlying biological state, not just observable symptoms.</p>
+          </article>
+
+          <article class="card reveal">
+            <div class="output-icon">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M4 17c3-6 5-7 8-4s5 2 8-6" stroke="currentColor" stroke-linecap="round"/><circle cx="4" cy="17" r="1.5" fill="currentColor"/><circle cx="20" cy="7" r="1.5" fill="currentColor"/></svg>
+            </div>
+            <h3>Organ-relevant trajectories</h3>
+            <p class="muted">Modelling that aims to capture how distinct tissue systems shift over time, rather than a single global score.</p>
+          </article>
+
+          <article class="card reveal">
+            <div class="output-icon">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M5 19V9M12 19V5M19 19v-7" stroke="currentColor" stroke-linecap="round"/></svg>
+            </div>
+            <h3>Longitudinal monitoring</h3>
+            <p class="muted">Repeat measurements over months and years support insight into direction and pace of biological change.</p>
+          </article>
+
+          <article class="card reveal">
+            <div class="output-icon">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M6 18h12M8 15l3-3 2 2 4-5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <h3>Decision-support insights</h3>
+            <p class="muted">Interpretable outputs intended to complement veterinary judgement and inform proactive care planning.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="reveal">
+          <div class="eyebrow">Platform layers</div>
+          <h2>Four layers working together.</h2>
+        </div>
+
+        <div class="layers" style="margin-top: 46px;">
+          <div class="layer-row reveal">
+            <span class="layer-index">01</span>
+            <h3>Data</h3>
+            <p>Curated longitudinal, cross-species datasets designed for biological signal discovery.</p>
+          </div>
+          <div class="layer-row reveal">
+            <span class="layer-index">02</span>
+            <h3>Biology</h3>
+            <p>Epigenetic measurements selected for informativeness across tissues.</p>
+          </div>
+          <div class="layer-row reveal">
+            <span class="layer-index">03</span>
+            <h3>Modelling</h3>
+            <p>Machine learning approaches designed to capture direction, pace and context of change.</p>
+          </div>
+          <div class="layer-row reveal">
+            <span class="layer-index">04</span>
+            <h3>Interpretation</h3>
+            <p>Outputs shaped for veterinary understanding and decision-support workflows.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="reveal">
+          <div class="eyebrow">How it works</div>
+          <h2>From sample to health trajectory.</h2>
+          <p class="lead">A staged pipeline connecting biology, data and interpretation.</p>
+        </div>
+
+        <div class="grid-4 steps" style="margin-top: 42px;">
+          <article class="step reveal">
+            <span class="step-number">01</span>
+            <h3>Biological sample</h3>
+            <p class="muted">Minimally invasive sampling suitable for routine veterinary workflows.</p>
+          </article>
+          <article class="step reveal">
+            <span class="step-number">02</span>
+            <h3>Epigenetic profiling</h3>
+            <p class="muted">Molecular signals measured across informative regions of the genome.</p>
+          </article>
+          <article class="step reveal">
+            <span class="step-number">03</span>
+            <h3>Computational modelling</h3>
+            <p class="muted">Machine learning models trained on longitudinal, multi-species datasets.</p>
+          </article>
+          <article class="step reveal">
+            <span class="step-number">04</span>
+            <h3>Health trajectory insight</h3>
+            <p class="muted">Interpretable outputs that describe biological direction over time.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="applications">
+      <div class="container">
+        <div class="reveal">
+          <div class="eyebrow">Applications</div>
+          <h2>Where our approach can support decisions.</h2>
+          <p class="lead">Initial focus areas across species and contexts, developed with domain partners.</p>
+        </div>
+
+        <div class="grid-2" style="margin-top: 48px;">
+          <article class="card species-card reveal">
+            <div class="card-number">01</div>
+            <h3>Equine health</h3>
+            <p class="muted">Supporting performance, welfare and long-term monitoring across the working life of the horse.</p>
+          </article>
+          <article class="card species-card reveal">
+            <div class="card-number">02</div>
+            <h3>Companion animal health</h3>
+            <p class="muted">Enabling earlier biological insight for dogs and cats to inform proactive veterinary care.</p>
+          </article>
+          <article class="card species-card reveal">
+            <div class="card-number">03</div>
+            <h3>Veterinary research</h3>
+            <p class="muted">Providing cross-species epigenetic tooling to accelerate translational animal health studies.</p>
+          </article>
+          <article class="card species-card reveal">
+            <div class="card-number">04</div>
+            <h3>Insurance and population health</h3>
+            <p class="muted">Exploring how biological trajectories could inform risk understanding at cohort scale.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="science">
+      <div class="container split">
+        <div class="reveal">
+          <div class="eyebrow">Science</div>
+          <h2>Grounded biology. Careful development. Honest communication.</h2>
+          <p class="lead">
+            Our scientific work focuses on how epigenetic signals reflect changing biological state,
+            and how those signals can be responsibly translated into decision support.
+          </p>
+        </div>
+
+        <div class="science-feature reveal">
+          <div class="science-list">
+            <div class="science-item">
+              <span>01</span>
+              <div>
+                <h3>Scientific rationale</h3>
+                <p>Epigenetic patterns shift as tissues respond to internal and environmental signals. These patterns can encode information about biological state that is not visible through conventional testing.</p>
+              </div>
+            </div>
+            <div class="science-item">
+              <span>02</span>
+              <div>
+                <h3>Cross-species epigenetics</h3>
+                <p>Conserved methylation biology across mammals enables approaches that generalise across species while respecting species-specific context.</p>
+              </div>
+            </div>
+            <div class="science-item">
+              <span>03</span>
+              <div>
+                <h3>Biological resilience</h3>
+                <p>We are interested in signals that reflect the capacity of biological systems to maintain function under stress, not only markers of disease that has already emerged.</p>
+              </div>
+            </div>
+            <div class="science-item">
+              <span>04</span>
+              <div>
+                <h3>Validation approach</h3>
+                <p>We follow a staged validation strategy spanning discovery, analytical validation, retrospective analysis, prospective piloting and utility assessment.</p>
+              </div>
+            </div>
+            <div class="science-item">
+              <span>05</span>
+              <div>
+                <h3>Responsible development</h3>
+                <p>We communicate our work with care, avoid over-interpretation, and design our tools to support rather than replace qualified veterinary judgement.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="reveal">
+          <div class="eyebrow">Validation roadmap</div>
+          <h2>A staged path from discovery to utility.</h2>
+          <p class="lead">
+            We follow a structured validation approach. Progress is described honestly;
+            no clinical or regulatory claims are implied.
+          </p>
+        </div>
+
+        <div class="grid-4 roadmap" style="margin-top: 48px; grid-template-columns: repeat(5, minmax(0, 1fr));">
+          <article class="roadmap-step reveal">
+            <span class="roadmap-dot"></span>
+            <small>Phase 01</small>
+            <h3>Discovery</h3>
+            <p class="muted">Signal identification across curated multi-species epigenetic datasets.</p>
+          </article>
+          <article class="roadmap-step reveal">
+            <span class="roadmap-dot"></span>
+            <small>Phase 02</small>
+            <h3>Analytical validation</h3>
+            <p class="muted">Assessment of measurement reproducibility, precision and robustness.</p>
+          </article>
+          <article class="roadmap-step reveal">
+            <span class="roadmap-dot"></span>
+            <small>Phase 03</small>
+            <h3>Retrospective validation</h3>
+            <p class="muted">Evaluation against historical longitudinal cohorts.</p>
+          </article>
+          <article class="roadmap-step reveal">
+            <span class="roadmap-dot"></span>
+            <small>Phase 04</small>
+            <h3>Prospective pilot</h3>
+            <p class="muted">Structured deployment with veterinary and research partners.</p>
+          </article>
+          <article class="roadmap-step reveal">
+            <span class="roadmap-dot"></span>
+            <small>Phase 05</small>
+            <h3>Clinical utility assessment</h3>
+            <p class="muted">Study of decision-support value in real-world veterinary contexts.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="progress">
+      <div class="container">
+        <div class="reveal">
+          <div class="eyebrow">Progress</div>
+          <h2>Building responsibly, step by step.</h2>
+          <p class="lead">An honest snapshot of where we are today.</p>
+        </div>
+
+        <div class="grid-4" style="margin-top: 42px;">
+          <div class="stat reveal">
+            <div class="stat-value">500+</div>
+            <div class="stat-label">Cross-species datasets curated</div>
+          </div>
+          <div class="stat reveal">
+            <div class="stat-value">Active</div>
+            <div class="stat-label">Veterinary and research collaborations</div>
+          </div>
+          <div class="stat reveal">
+            <div class="stat-value">In progress</div>
+            <div class="stat-label">Pilot development</div>
+          </div>
+          <div class="stat reveal">
+            <div class="stat-value">Cambridge</div>
+            <div class="stat-label">Scientific and entrepreneurial ecosystem</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container split">
+        <div class="reveal">
+          <div class="eyebrow">Team</div>
+          <h2>Built by scientists, engineers and operators.</h2>
+        </div>
+        <div class="team-note reveal">
+          <p class="lead" style="margin-bottom: 0;">
+            Complementary expertise across epigenetics, multi-omics, machine learning,
+            translational science and commercialisation.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section compact">
+      <div class="container">
+        <div class="cta reveal">
+          <div class="eyebrow">Work with us</div>
+          <h2>Build the future of proactive animal health with us.</h2>
+          <p class="lead">
+            We welcome conversations with investors, veterinary partners,
+            researchers and prospective hires.
+          </p>
+          <div class="button-row" style="margin-top: 30px;">
+            <a class="button primary" href="mailto:team@vetrabio.com">
+              Get in touch
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
+          </div>
+        </div>
       </div>
     </section>
   </main>
 
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <a class="brand" href="#top">
+            <span class="brand-mark" aria-hidden="true"></span>
+            <span>Vetra Bio</span>
+          </a>
+          <p class="muted" style="max-width: 390px; margin-top: 20px;">
+            Epigenetic intelligence for proactive animal health. Built in Cambridge.
+          </p>
+        </div>
+
+        <div>
+          <div class="footer-title">Contact</div>
+          <div class="footer-links">
+            <a href="mailto:team@vetrabio.com">team@vetrabio.com</a>
+          </div>
+        </div>
+
+        <div>
+          <div class="footer-title">Legal</div>
+          <div class="footer-links">
+            <a href="privacy.html">Privacy</a>
+            <a href="terms.html">Terms</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="disclaimer">
+        Vetra Bio's technology is under development and is not currently intended
+        to replace veterinary diagnosis or clinical judgement.
+      </div>
+      <div class="copyright">© 2026 Vetra Bio. Cambridge, United Kingdom.</div>
+    </div>
+  </footer>
+
   <script>
-    document.getElementById('year').textContent = new Date().getFullYear();
+    const nav = document.getElementById("nav");
+    const menuButton = document.getElementById("menuButton");
+    const navLinks = document.getElementById("navLinks");
+
+    const updateNav = () => {
+      nav.classList.toggle("scrolled", window.scrollY > 24);
+    };
+
+    updateNav();
+    window.addEventListener("scroll", updateNav, { passive: true });
+
+    menuButton.addEventListener("click", () => {
+      const open = navLinks.classList.toggle("open");
+      menuButton.setAttribute("aria-expanded", String(open));
+      menuButton.innerHTML = open ? "<span>✕</span>" : "<span>☰</span>";
+    });
+
+    navLinks.querySelectorAll("a").forEach(link => {
+      link.addEventListener("click", () => {
+        navLinks.classList.remove("open");
+        menuButton.setAttribute("aria-expanded", "false");
+        menuButton.innerHTML = "<span>☰</span>";
+      });
+    });
+
+    const observer = new IntersectionObserver(
+      entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.12 }
+    );
+
+    document.querySelectorAll(".reveal").forEach(element => observer.observe(element));
   </script>
 </body>
 </html>
